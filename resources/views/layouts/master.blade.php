@@ -4,6 +4,7 @@
 <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>@yield('APP-NAME') - {{ env('APP_NAME') }}</title>
     <!-- Favicon -->
@@ -16,6 +17,8 @@
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     <!-- Responsive CSS -->
     <link rel="stylesheet" href="{{ asset('css/responsive.css') }}">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css">
+    @yield('APP-CSS')
 </head>
 
 <body class="sidebar-main-active right-column-fixed">
@@ -31,7 +34,7 @@
         <div class="iq-sidebar">
             <div class="iq-navbar-logo d-flex justify-content-between">
                 <a href="index.html" class="header-logo">
-                    <img src="images/logo.png" class="img-fluid rounded" alt="">
+                    <img src="{{ asset('images/logo.png') }}" class="img-fluid rounded" alt="">
                     <span>VDUC</span>
                 </a>
                 <div class="iq-menu-bt align-self-center">
@@ -46,87 +49,14 @@
             </div>
         </div>
         <!-- TOP Nav Bar -->
-        <div class="iq-top-navbar">
-            <div class="iq-navbar-custom">
-                <nav class="navbar navbar-expand-lg navbar-light p-0">
-                    <div class="iq-menu-bt d-flex align-items-center">
-                        <div class="wrapper-menu">
-                            <div class="main-circle"><i class="ri-menu-line"></i></div>
-                            <div class="hover-circle"><i class="ri-close-fill"></i></div>
-                        </div>
-                        <div class="iq-navbar-logo d-flex justify-content-between ml-3">
-                            <a href="index.html" class="header-logo">
-                                <img src="images/logo.png" class="img-fluid rounded" alt="">
-                                <span>VDUC</span>
-                            </a>
-                        </div>
-                    </div>
-                    <ul class="navbar-nav ml-auto navbar-list mt-2">
-                        <li class="line-height">
-                            <a href="#" class="search-toggle iq-waves-effect d-flex align-items-center">
-                                <img src="images/user/1.jpg" class="img-fluid rounded mr-3" alt="user">
-                                <div class="caption">
-                                    <h6 class="mb-0 line-height">Name</h6>
-                                    <p class="mb-0">Role</p>
-                                </div>
-                            </a>
-                            <div class="iq-sub-dropdown iq-user-dropdown">
-                                <div class="iq-card shadow-none m-0">
-                                    <div class="iq-card-body p-0 ">
-                                        <div class="bg-primary p-3">
-                                            <h5 class="mb-0 text-white line-height">Hello! Name</h5>
-                                        </div>
-                                        <a href="#" class="iq-sub-card iq-bg-primary-hover">
-                                            <div class="media align-items-center">
-                                                <div class="rounded iq-card-icon iq-bg-primary">
-                                                    <i class="ri-file-user-line"></i>
-                                                </div>
-                                                <div class="media-body ml-3">
-                                                    <h6 class="mb-0 ">My Profile</h6>
-                                                    <p class="mb-0 font-size-12">View personal profile details.</p>
-                                                </div>
-                                            </div>
-                                        </a>
-                                        <a href="#" class="iq-sub-card iq-bg-primary-hover">
-                                            <div class="media align-items-center">
-                                                <div class="rounded iq-card-icon iq-bg-primary">
-                                                    <i class="ri-profile-line"></i>
-                                                </div>
-                                                <div class="media-body ml-3">
-                                                    <h6 class="mb-0 ">Edit Profile</h6>
-                                                    <p class="mb-0 font-size-12">Modify your personal details.</p>
-                                                </div>
-                                            </div>
-                                        </a>
-                                        <a href="#" class="iq-sub-card iq-bg-primary-hover">
-                                            <div class="media align-items-center">
-                                                <div class="rounded iq-card-icon iq-bg-primary">
-                                                    <i class="ri-account-box-line"></i>
-                                                </div>
-                                                <div class="media-body ml-3">
-                                                    <h6 class="mb-0 ">Account settings</h6>
-                                                    <p class="mb-0 font-size-12">Change your account password.</p>
-                                                </div>
-                                            </div>
-                                        </a>
-                                        <div class="d-inline-block w-100 text-center p-3">
-                                            <a class="bg-primary iq-sign-btn" href="sign-in.html" role="button">Sign
-                                                out<i class="ri-login-box-line ml-2"></i></a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
-                    </ul>
-                </nav>
-            </div>
-        </div>
+        @include('layouts.topbar')
         <!-- TOP Nav Bar END -->
 
         <!-- Page Content  -->
         <div id="content-page" class="content-page">
             <div class="container-fluid">
                 <div class="row">
+                    <div class="col-lg-12" id="container-message"></div>
                     <div class="col-lg-12">
                         @yield('APP-CONTENT')
                     </div>
@@ -199,6 +129,100 @@
     <script src="{{ asset('js/chart-custom.js') }}"></script>
     <!-- Custom JavaScript -->
     <script src="{{ asset('js/custom.js') }}"></script>
+    <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
+
+    <script type="text/javascript">
+        const types = {
+            success: {
+                bg: 'bg-success',
+                icon: '<i class="ri-alert-line"></i>'
+            },
+            error: {
+                bg: 'bg-danger',
+                icon: '<i class="ri-information-line"></i>'
+            },
+            warning: {
+                bg: 'bg-warning',
+                icon: '<i class="ri-alert-line"></i>'
+            },
+            primary: {
+                bg: 'bg-primary',
+                icon: '<i class="ri-alert-line"></i>'
+            }
+        };
+
+        function showContainerMessage(message, type = 'primary') {
+
+            const {
+                bg,
+                icon
+            } = types[type] || types.primary;
+
+            const container = $('#container-message');
+
+            container.html(`
+                <div class="alert text-white ${bg}" role="alert">
+                    <div class="iq-alert-icon">${icon}</div>
+                    <div class="iq-alert-text">${message}</div>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <i class="ri-close-line"></i>
+                    </button>
+                </div>`).show();
+
+            $('html, body').animate({
+                scrollTop: 0
+            }, 'slow');
+
+            setTimeout(() => container.fadeOut(), 5000);
+        }
+
+        function showModalMessage(message, type = 'primary') {
+
+            const {
+                bg,
+                icon
+            } = types[type] || types.primary;
+
+            const container = $('#modal-message');
+
+            container.html(`
+                <div class="alert text-white ${bg}" role="alert">
+                    <div class="iq-alert-icon">${icon}</div>
+                    <div class="iq-alert-text">${message}</div>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <i class="ri-close-line"></i>
+                    </button>
+                </div>`).show();
+
+            $('html, body').animate({
+                scrollTop: 0
+            }, 'slow');
+
+            setTimeout(() => container.fadeOut(), 5000);
+        }
+
+        function setModalMessage(modal, messageId = 'modal-message', messageClass = '', messageContent = '') {
+            const modalBody = modal.find('.modal-body');
+            modalBody.find(`#${messageId}`).remove();
+            modalBody.prepend(`<div id="${messageId}" class="${messageClass}">${messageContent}</div>`);
+        }
+
+        $(document).ready(function() {
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+
+            $('#table').DataTable({
+                paging: true,
+                searching: true,
+                info: true
+            });
+        });
+    </script>
+    @yield('APP-SCRIPT')
 </body>
 
 </html>

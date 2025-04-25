@@ -4,6 +4,7 @@ use App\Http\Controllers\DivingApplicationController;
 use App\Http\Controllers\DivingLessonController;
 use App\Http\Controllers\EquipmentController;
 use App\Http\Controllers\EquipmentRentalItemController;
+use App\Http\Controllers\Navigation\AdminController;
 use App\Http\Controllers\RentalController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VesselController;
@@ -24,6 +25,13 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
+});
+
+Route::prefix('admin')->group(function () {
+    Route::get('/employees', [AdminController::class, 'employees'])->name('admin.employees');
+    Route::get('/students', [AdminController::class, 'students'])->name('admin.students');
+    Route::get('/surveys', [AdminController::class, 'surveys'])->name('admin.surveys');
+    Route::get('/rentals', [AdminController::class, 'rentals'])->name('admin.rentals');
 });
 
 // User Routes
