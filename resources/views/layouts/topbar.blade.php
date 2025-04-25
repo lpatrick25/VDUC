@@ -8,28 +8,27 @@
                 </div>
                 <div class="iq-navbar-logo d-flex justify-content-between ml-3">
                     <a href="index.html" class="header-logo">
-                        <img src="images/logo.png" class="img-fluid rounded" alt="">
+                        <img src="{{ asset('images/logo.png') }}" class="img-fluid rounded" alt="">
                         <span>VDUC</span>
                     </a>
                 </div>
             </div>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-                aria-controls="navbarSupportedContent" aria-label="Toggle navigation">
-                <i class="ri-menu-3-line"></i>
-            </button>
-            <ul class="navbar-list">
+            <ul class="navbar-nav ml-auto navbar-list mt-2">
                 <li class="line-height">
                     <a href="#" class="search-toggle iq-waves-effect d-flex align-items-center">
-                        <img src="images/user/1.jpg" class="img-fluid rounded mr-3" alt="user">
+                        <img src="{{ asset('images/user/1.jpg') }}" class="img-fluid rounded mr-3" alt="user">
                         <div class="caption">
-                            <h6 class="mb-0 line-height">Barry Tech</h6>
-                            <p class="mb-0">Manager</p>
+                            <h6 class="mb-0 line-height">Administrator</h6>
+                            <p class="mb-0">Admin</p>
                         </div>
                     </a>
                     <div class="iq-sub-dropdown iq-user-dropdown">
                         <div class="iq-card shadow-none m-0">
                             <div class="iq-card-body p-0 ">
-                                <a href="profile.html" class="iq-sub-card iq-bg-primary-hover">
+                                <div class="bg-primary p-3">
+                                    <h5 class="mb-0 text-white line-height">Hello! Administrator</h5>
+                                </div>
+                                <a href="#" class="iq-sub-card iq-bg-primary-hover">
                                     <div class="media align-items-center">
                                         <div class="rounded iq-card-icon iq-bg-primary">
                                             <i class="ri-file-user-line"></i>
@@ -40,7 +39,7 @@
                                         </div>
                                     </div>
                                 </a>
-                                <a href="profile-edit.html" class="iq-sub-card iq-bg-primary-hover">
+                                <a href="#" class="iq-sub-card iq-bg-primary-hover">
                                     <div class="media align-items-center">
                                         <div class="rounded iq-card-icon iq-bg-primary">
                                             <i class="ri-profile-line"></i>
@@ -48,6 +47,17 @@
                                         <div class="media-body ml-3">
                                             <h6 class="mb-0 ">Edit Profile</h6>
                                             <p class="mb-0 font-size-12">Modify your personal details.</p>
+                                        </div>
+                                    </div>
+                                </a>
+                                <a href="#" class="iq-sub-card iq-bg-primary-hover">
+                                    <div class="media align-items-center">
+                                        <div class="rounded iq-card-icon iq-bg-primary">
+                                            <i class="ri-account-box-line"></i>
+                                        </div>
+                                        <div class="media-body ml-3">
+                                            <h6 class="mb-0 ">Account settings</h6>
+                                            <p class="mb-0 font-size-12">Change your account password.</p>
                                         </div>
                                     </div>
                                 </a>

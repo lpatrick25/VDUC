@@ -2,12 +2,13 @@
 
 namespace App\Models;
 
+use App\Traits\HasFullName;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class User extends Model
 {
-    use HasFactory;
+    use HasFactory, HasFullName;
 
     protected $fillable = [
         'first_name',
@@ -20,6 +21,8 @@ class User extends Model
         'role',
         'status',
     ];
+
+    protected $appends = ['full_name'];
 
     public function rentals()
     {
