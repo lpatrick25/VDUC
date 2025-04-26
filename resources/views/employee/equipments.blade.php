@@ -1,11 +1,11 @@
 @extends('layouts.master')
-@section('user-active', 'active')
-@section('student-active', 'active')
+@section('equipments-active', 'active')
+@section('equipment-active', 'active')
 @section('APP-CONTENT')
     <div class="iq-card">
         <div class="iq-card-header d-flex justify-content-between">
             <div class="iq-header-title">
-                <h4 class="card-title">User List</h4>
+                <h4 class="card-title">Equipment List</h4>
             </div>
             <div class="iq-card-header-toolbar d-flex align-items-center">
                 <button type="button" id="addBtn" class="btn btn-primary" data-toggle="modal" data-target="#addModal" class="btn btn-primary">Add New</button>
@@ -18,27 +18,49 @@
                     <thead>
                         <tr>
                             <th>#</th>
-                            <th>Full Name</th>
-                            <th>Contact</th>
-                            <th>Email</th>
+                            <th>Equipment Name</th>
+                            <th>Quantity</th>
+                            <th>Remaining</th>
+                            <th>Rented</th>
                             <th>Status</th>
                             <th>Created Date</th>
                             <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($students as $student)
+                        @foreach ($equipments as $equipment)
                             <tr>
-                                <td>{{ $student->id }}</td>
-                                <td>{{ $student->full_name }}</td>
-                                <td>{{ $student->contact }}</td>
-                                <td>{{ $student->email }}</td>
-                                <td>{{ $student->status }}</td>
-                                <td>{{ date('F j, Y', strtotime($student->created_at)) }}</td>
+                                <td>{{ $equipment->id }}</td>
+                                <td>{{ ucwords($equipment->equipment_name) }}</td>
+                                <td>{{ $equipment->quantity }}</td>
                                 <td>
-                                    <button type="button" class="btn btn-primary editBtn" data-id="{{ $student->id }}"
+                                    @if ($equipment->available_quantity <= 0)
+                                        <span class="badge badge-danger">Out of Stock</span>
+                                    @elseif($equipment->available_quantity < 3)
+                                        <span class="badge badge-warning">Low Stock
+                                            ({{ $equipment->available_quantity }})
+                                        </span>
+                                    @else
+                                        <span class="badge badge-success">{{ $equipment->available_quantity }}
+                                            Available</span>
+                                    @endif
+                                </td>
+                                <td><span class="badge badge-primary">{{ $equipment->rented_quantity ?? 0 }} Rented</span>
+                                </td>
+                                <td>
+                                    @if ($equipment->status === 'Available')
+                                        <span class="badge badge-success">Available</span>
+                                    @elseif ($equipment->status === 'inactive')
+                                        <span class="badge badge-secondary">Not Available</span>
+                                    @else
+                                        <span class="badge badge-warning">Unknown</span>
+                                    @endif
+                                </td>
+                                <td>{{ date('F j, Y', strtotime($equipment->created_at)) }}</td>
+                                <td>
+                                    <button type="button" class="btn btn-primary editBtn" data-id="{{ $equipment->id }}"
                                         data-toggle="modal" data-target="#editModal">Edit</button>
-                                    <button type="button" class="btn btn-danger deleteBtn" data-id="{{ $student->id }}"
+                                    <button type="button" class="btn btn-danger deleteBtn" data-id="{{ $equipment->id }}"
                                         data-toggle="modal" data-target="#deleteModal">Delete</button>
                                 </td>
                             </tr>
@@ -48,14 +70,14 @@
             </div>
         </div>
     </div>
-    @include('modals.add_user')
-    @include('modals.edit_user')
-    @include('modals.delete_user')
+    @include('modals.add_equipment')
+    @include('modals.edit_equipment')
+    @include('modals.delete_equipment')
 @endsection
 @section('APP-SCRIPT')
     <script>
         $(document).ready(function() {
-            let userID = null;
+            let equipmentID = null;
 
             $('.deleteBtn').on('click', function() {
                 const id = $(this).data('id');
@@ -68,7 +90,7 @@
             $('.confirmDelete').on('click', function() {
                 const id = $(this).data('id');
                 $.ajax({
-                    url: `/users/${id}`,
+                    url: `/equipments/${id}`,
                     method: 'DELETE',
                     dataType: 'JSON',
                     success: function(response) {
@@ -91,26 +113,19 @@
             $('.editBtn').on('click', function() {
                 const id = $(this).data('id');
                 $.ajax({
-                    url: `/users/${id}`,
+                    url: `/equipments/${id}`,
                     method: 'GET',
                     dataType: 'JSON',
                     cache: false,
                     success: function(response) {
                         const data = response.data;
-                        userID = data.id;
-                        $('#editModal').find('input[name="first_name"]').val(data.first_name);
-                        $('#editModal').find('input[name="middle_name"]').val(data.middle_name);
-                        $('#editModal').find('input[name="last_name"]').val(data.last_name);
-                        $('#editModal').find('input[name="extension_name"]').val(data
-                            .extension_name);
-                        $('#editModal').find('input[name="email"]').val(data.email);
-                        $('#editModal').find('input[name="contact"]').val(data.contact);
-                        $('#editModal').find('select[name="role"]').val(data.role);
-                        $('#editModal').find('select[name="status"]').val(data.status);
+                        equipmentID = data.id;
+                        $('#editModal').find('input[name="equipment_name"]').val(data.equipment_name);
+                        $('#editModal').find('input[name="quantity"]').val(data.quantity);
                         $('#editModal').modal('show');
                     },
                     error: function(err) {
-                        console.error('Error fetching employee data:', err);
+                        console.error('Error fetching equipment data:', err);
                     }
                 });
             });
@@ -121,7 +136,7 @@
                 setModalMessage(addModal);
                 const formData = $(this).serialize();
                 $.ajax({
-                    url: '/users',
+                    url: '/equipments',
                     method: 'POST',
                     data: formData,
                     dataType: 'JSON',
@@ -155,7 +170,7 @@
                 setModalMessage(editModal);
                 const formData = $(this).serialize();
                 $.ajax({
-                    url: `/users/${userID}`,
+                    url: `/equipments/${equipmentID}`,
                     method: 'PUT',
                     data: formData,
                     dataType: 'JSON',

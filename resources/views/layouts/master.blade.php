@@ -45,7 +45,8 @@
                 </div>
             </div>
             <div id="sidebar-scrollbar">
-                @include('admin.sidebar')
+                {{-- @include('admin.sidebar') --}}
+                @include('employee.sidebar')
             </div>
         </div>
         <!-- TOP Nav Bar -->
@@ -218,7 +219,8 @@
             $('#table').DataTable({
                 paging: true,
                 searching: true,
-                info: true
+                info: true,
+                "order": [],
             });
         });
     </script>

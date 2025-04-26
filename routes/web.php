@@ -1,10 +1,12 @@
 <?php
 
+use App\Http\Controllers\Action\RentalActionController;
 use App\Http\Controllers\DivingApplicationController;
 use App\Http\Controllers\DivingLessonController;
 use App\Http\Controllers\EquipmentController;
 use App\Http\Controllers\EquipmentRentalItemController;
 use App\Http\Controllers\Navigation\AdminController;
+use App\Http\Controllers\Navigation\EmployeeController;
 use App\Http\Controllers\RentalController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VesselController;
@@ -28,10 +30,24 @@ Route::get('/', function () {
 });
 
 Route::prefix('admin')->group(function () {
+    Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
     Route::get('/employees', [AdminController::class, 'employees'])->name('admin.employees');
     Route::get('/students', [AdminController::class, 'students'])->name('admin.students');
     Route::get('/surveys', [AdminController::class, 'surveys'])->name('admin.surveys');
     Route::get('/rentals', [AdminController::class, 'rentals'])->name('admin.rentals');
+});
+
+Route::prefix('employee')->group(function () {
+    Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('employee.dashboard');
+    Route::get('/equipments', [EmployeeController::class, 'equipments'])->name('employee.equipments');
+    Route::get('/rentals', [EmployeeController::class, 'rentals'])->name('employee.rentals');
+
+    Route::prefix('rentals')->group(function () {
+        Route::post('{rental}/action', [RentalActionController::class, 'handle'])->name('employee.rentals.action');
+        Route::get('{rental}/items', [RentalActionController::class, 'rentalItems']);
+        Route::post('{rental}/return', [RentalActionController::class, 'submitReturn']);
+        Route::post('/confirm', [RentalActionController::class, 'confirmRental'])->name('rentals.confirm');
+    });
 });
 
 // User Routes

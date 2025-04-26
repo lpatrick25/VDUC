@@ -28,6 +28,13 @@ class Rental extends Model
         return $this->hasMany(EquipmentRentalItem::class);
     }
 
+    public function equipment()
+    {
+        return $this->belongsToMany(Equipment::class, 'equipment_rental_items')
+            ->withPivot('quantity')
+            ->withTimestamps();
+    }
+
     public function rentalStatuses()
     {
         return $this->hasMany(RentalItemStatus::class);
