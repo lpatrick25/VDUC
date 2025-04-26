@@ -11,11 +11,38 @@ class Equipment extends Model
 
     protected $fillable = ['equipment_name', 'quantity'];
 
-    public function rentalItems() {
+    public function rentalItems()
+    {
         return $this->hasMany(EquipmentRentalItem::class);
     }
 
-    public function rentalStatuses() {
+    public function rentalStatuses()
+    {
         return $this->hasMany(RentalItemStatus::class);
+    }
+
+    public function getAvailableQuantityAttribute()
+    {
+        $rented = $this->rentalItems()
+            ->whereHas('rental', function ($query) {
+                $query->whereNotIn('status', ['Returned', 'Cancelled']);
+            })
+            ->sum('quantity');
+
+        return $this->quantity - $rented;
+    }
+
+    public function getRentedQuantityAttribute()
+    {
+        return $this->rentalItems()
+            ->whereHas('rental', function ($query) {
+                $query->whereNotIn('status', ['Returned', 'Cancelled']);
+            })
+            ->sum('quantity');
+    }
+
+    public function getStatusAttribute()
+    {
+        return $this->available_quantity > 0 ? 'Available' : 'Not Available';
     }
 }

@@ -4,62 +4,75 @@ namespace App\Http\Controllers;
 
 use App\Models\Equipment;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class EquipmentController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        try {
+            $equipment = Equipment::all();
+            return $this->success($equipment, 'Equipment retrieved successfully');
+        } catch (\Exception $e) {
+            Log::error('Failed to fetch equipment: ' . $e->getMessage());
+            return $this->failed(null, 'Failed to fetch equipment', 500);
+        }
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'equipment_name' => 'required|string|max:255',
+            'quantity'       => 'required|integer|min:1',
+        ]);
+
+        try {
+            $equipment = Equipment::create($validated);
+            return $this->success($equipment, 'Equipment created successfully', 201);
+        } catch (\Exception $e) {
+            Log::error('Failed to create equipment: ' . $e->getMessage());
+            return $this->failed(null, 'Failed to create equipment', 500);
+        }
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Equipment $equipment)
+    public function show($id)
     {
-        //
+        try {
+            $equipment = Equipment::findOrFail($id);
+            return $this->success($equipment, 'Equipment retrieved successfully');
+        } catch (\Exception $e) {
+            Log::error("Failed to retrieve equipment ID {$id}: " . $e->getMessage());
+            return $this->failed(null, 'Equipment not found', 404);
+        }
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Equipment $equipment)
+    public function update(Request $request, $id)
     {
-        //
+        try {
+            $equipment = Equipment::findOrFail($id);
+
+            $validated = $request->validate([
+                'equipment_name' => 'sometimes|required|string|max:255',
+                'quantity'       => 'sometimes|required|integer|min:1',
+            ]);
+
+            $equipment->update($validated);
+            return $this->success($equipment, 'Equipment updated successfully');
+        } catch (\Exception $e) {
+            Log::error("Failed to update equipment ID {$id}: " . $e->getMessage());
+            return $this->failed(null, 'Failed to update equipment', 500);
+        }
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Equipment $equipment)
+    public function destroy($id)
     {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Equipment $equipment)
-    {
-        //
+        try {
+            $equipment = Equipment::findOrFail($id);
+            $equipment->delete();
+            return $this->success(null, 'Equipment deleted successfully');
+        } catch (\Exception $e) {
+            Log::error("Failed to delete equipment ID {$id}: " . $e->getMessage());
+            return $this->failed(null, 'Failed to delete equipment', 500);
+        }
     }
 }
