@@ -1,6 +1,9 @@
 <?php
 
+use App\Http\Controllers\Action\DivingApplicationController as ActionDivingApplicationController;
 use App\Http\Controllers\Action\RentalActionController;
+use App\Http\Controllers\Action\StudentController;
+use App\Http\Controllers\DiversLogController;
 use App\Http\Controllers\DivingApplicationController;
 use App\Http\Controllers\DivingLessonController;
 use App\Http\Controllers\EquipmentController;
@@ -39,8 +42,29 @@ Route::prefix('admin')->group(function () {
 
 Route::prefix('employee')->group(function () {
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('employee.dashboard');
-    Route::get('/equipments', [EmployeeController::class, 'equipments'])->name('employee.equipments');
-    Route::get('/rentals', [EmployeeController::class, 'rentals'])->name('employee.rentals');
+
+    Route::prefix('equipments')->group(function () {
+        Route::get('/list', [EmployeeController::class, 'equipments'])->name('employee.equipments');
+        Route::get('/rentals', [EmployeeController::class, 'rentals'])->name('employee.rentals');
+    });
+
+    Route::prefix('diving')->group(function () {
+        Route::get('/lesson', [EmployeeController::class, 'lesson'])->name('employee.lesson');
+
+        Route::prefix('students')->group(function () {
+            Route::get('/list', [EmployeeController::class, 'students'])->name('employee.students');
+            Route::get('/{student}/applications', [StudentController::class, 'getApplications']);
+        });
+
+        Route::prefix('applications')->group(function () {
+            Route::get('/list', [EmployeeController::class, 'applications'])->name('employee.applications');
+            Route::post('/{applicationID}/{action}', [ActionDivingApplicationController::class, 'handleAction'])->name('employee.handleAction');
+            Route::get('/{application}/divers-logs', [StudentController::class, 'getDiversLogs']);
+            Route::get('/{application}/divers-log', [DivingApplicationController::class, 'viewDiversLog']);
+        });
+
+        Route::get('/logs', [EmployeeController::class, 'logs'])->name('employee.logs');
+    });
 
     Route::prefix('rentals')->group(function () {
         Route::post('{rental}/action', [RentalActionController::class, 'handle'])->name('employee.rentals.action');
@@ -67,6 +91,7 @@ Route::resource('vessel-inspections', VesselInspectionController::class);
 
 // Diving Lessons Routes
 Route::resource('diving-lessons', DivingLessonController::class);
+Route::resource('divers-logs', DiversLogController::class);
 
 // Diving Applications Routes
 Route::resource('diving-applications', DivingApplicationController::class);
