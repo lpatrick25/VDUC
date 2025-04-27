@@ -4,62 +4,79 @@ namespace App\Http\Controllers;
 
 use App\Models\DivingLesson;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class DivingLessonController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        try {
+            $divingLessons = DivingLesson::all();
+            return $this->success($divingLessons, 'Diving lessons retrieved successfully');
+        } catch (\Exception $e) {
+            Log::error('Failed to fetch diving lessons: ' . $e->getMessage());
+            return $this->failed(null, 'Failed to fetch diving lessons', 500);
+        }
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'lesson_name' => 'required|string|max:255',
+            'description' => 'required|string|max:255',
+            'duration_minutes'    => 'required|integer|min:1',
+            'price'    => 'required|integer|min:1',
+        ]);
+
+        try {
+            $divingLesson = DivingLesson::create($validated);
+            return $this->success($divingLesson, 'Diving lesson created successfully', 201);
+        } catch (\Exception $e) {
+            Log::error('Failed to create diving lesson: ' . $e->getMessage());
+            return $this->failed(null, 'Failed to create diving lesson', 500);
+        }
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(DivingLesson $divingLesson)
+    public function show($id)
     {
-        //
+        try {
+            $divingLesson = DivingLesson::findOrFail($id);
+            return $this->success($divingLesson, 'Diving lesson retrieved successfully');
+        } catch (\Exception $e) {
+            Log::error("Failed to retrieve diving lesson ID {$id}: " . $e->getMessage());
+            return $this->failed(null, 'Diving lesson not found', 404);
+        }
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(DivingLesson $divingLesson)
+    public function update(Request $request, $id)
     {
-        //
+        try {
+            $divingLesson = DivingLesson::findOrFail($id);
+
+            $validated = $request->validate([
+                'lesson_name' => 'required|string|max:255',
+                'description' => 'required|string|max:255',
+                'duration_minutes'    => 'required|integer|min:1',
+                'price'    => 'required|integer|min:1',
+            ]);
+
+            $divingLesson->update($validated);
+            return $this->success($divingLesson, 'Diving lesson updated successfully');
+        } catch (\Exception $e) {
+            Log::error("Failed to update diving lesson ID {$id}: " . $e->getMessage());
+            return $this->failed(null, 'Failed to update diving lesson', 500);
+        }
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, DivingLesson $divingLesson)
+    public function destroy($id)
     {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(DivingLesson $divingLesson)
-    {
-        //
+        try {
+            $divingLesson = DivingLesson::findOrFail($id);
+            $divingLesson->delete();
+            return $this->success(null, 'Diving lesson deleted successfully');
+        } catch (\Exception $e) {
+            Log::error("Failed to delete diving lesson ID {$id}: " . $e->getMessage());
+            return $this->failed(null, 'Failed to delete diving lesson', 500);
+        }
     }
 }
