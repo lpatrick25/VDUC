@@ -221,7 +221,7 @@
                             });
                         } else {
                             $('#diversLogsTable').html(
-                                '<tr><td colspan="5" class="text-muted">No diver\'s logs available.</td></tr>'
+                                '<tr><td colspan="6" class="text-muted text-center">No diver\'s logs available.</td></tr>'
                             );
                         }
                     }

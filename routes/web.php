@@ -67,10 +67,10 @@ Route::prefix('employee')->group(function () {
     });
 
     Route::prefix('rentals')->group(function () {
-        Route::post('{rental}/action', [RentalActionController::class, 'handle'])->name('employee.rentals.action');
         Route::get('{rental}/items', [RentalActionController::class, 'rentalItems']);
         Route::post('{rental}/return', [RentalActionController::class, 'submitReturn']);
         Route::post('/confirm', [RentalActionController::class, 'confirmRental'])->name('rentals.confirm');
+        Route::post('{rental}/action', [RentalActionController::class, 'handle'])->name('employee.rentals.action');
     });
 });
 

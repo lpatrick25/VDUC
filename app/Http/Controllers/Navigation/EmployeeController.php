@@ -26,7 +26,7 @@ class EmployeeController extends Controller
             ->orderByRaw("FIELD(status, 'Pending', 'Confirmed', 'Released', 'Returned', 'Cancelled')")
             ->get();
 
-        // Optional: Mark "Released" rentals as overdue if return_date has passed
+        // Mark "Released" rentals as overdue if return_date has passed
         foreach ($rentals as $rental) {
             if (
                 $rental->status === 'Released' &&
@@ -36,7 +36,10 @@ class EmployeeController extends Controller
             }
         }
 
-        return view('employee.rentals', compact('rentals'));
+        $users = User::where('role', 'Rental Client')->get();
+        $allEquipment = Equipment::select('id', 'equipment_name', 'quantity')->get(); // fixed
+
+        return view('employee.rentals', compact('rentals', 'users', 'allEquipment'));
     }
 
     public function lesson()
