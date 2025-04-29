@@ -99,18 +99,14 @@
                     success: function(applications) {
                         if (applications.length > 0) {
                             var filteredApplications = applications.filter(function(app) {
-                                return app.status === 'Approved' || app.status ===
-                                    'Ongoing' || app.status === 'Completed';
+                                return app.status === 'Ongoing';
                             });
 
                             if (filteredApplications.length > 0) {
                                 var content = '';
 
                                 $.each(filteredApplications, function(index, app) {
-                                    var statusBadgeClass = app.status === 'Approved' ?
-                                        'badge-success' :
-                                        app.status === 'Ongoing' ? 'badge-primary' :
-                                        'badge-secondary';
+                                    var statusBadgeClass = 'badge-primary';
 
                                     content += `
                                         <div class="card shadow-sm mb-3">
@@ -139,7 +135,7 @@
                                 $('#applicationsList').html(content);
                             } else {
                                 $('#applicationsList').html(
-                                    '<p class="text-muted text-center">No Approved/Ongoing/Completed applications.</p>'
+                                    '<p class="text-muted text-center">No Ongoing applications.</p>'
                                 );
                             }
                         } else {
@@ -184,7 +180,7 @@
                                 applicationId);
                         } else {
                             $('#diversLogsTable').html(
-                                '<tr><td colspan="5" class="text-muted">No diver\'s logs available.</td></tr>'
+                                '<tr><td colspan="6" class="text-muted text-center">No diver\'s logs available.</td></tr>'
                             );
                         }
                     }
