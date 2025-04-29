@@ -3,6 +3,7 @@
 use App\Http\Controllers\Action\DivingApplicationController as ActionDivingApplicationController;
 use App\Http\Controllers\Action\RentalActionController;
 use App\Http\Controllers\Action\StudentController;
+use App\Http\Controllers\Action\VesselScheduleController as ActionVesselScheduleController;
 use App\Http\Controllers\DiversLogController;
 use App\Http\Controllers\DivingApplicationController;
 use App\Http\Controllers\DivingLessonController;
@@ -14,7 +15,9 @@ use App\Http\Controllers\RentalController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VesselController;
 use App\Http\Controllers\VesselInspectionController;
+use App\Http\Controllers\VesselInspectionDetailController;
 use App\Http\Controllers\VesselScheduleController;
+use App\Http\Controllers\VesselServiceController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -58,12 +61,24 @@ Route::prefix('employee')->group(function () {
 
         Route::prefix('applications')->group(function () {
             Route::get('/list', [EmployeeController::class, 'applications'])->name('employee.applications');
-            Route::post('/{applicationID}/{action}', [ActionDivingApplicationController::class, 'handleAction'])->name('employee.handleAction');
+            Route::post('/{applicationID}/{action}', [ActionDivingApplicationController::class, 'handleAction'])->name('employee.handleActionApplication');
             Route::get('/{application}/divers-logs', [StudentController::class, 'getDiversLogs']);
             Route::get('/{application}/divers-log', [DivingApplicationController::class, 'viewDiversLog']);
         });
+    });
 
-        Route::get('/logs', [EmployeeController::class, 'logs'])->name('employee.logs');
+    Route::prefix('vessels')->group(function () {
+        Route::get('/list', [EmployeeController::class, 'vessels'])->name('employee.vessels');
+        Route::get('/services', [EmployeeController::class, 'services'])->name('employee.services');
+        Route::prefix('schedules')->group(function () {
+            Route::get('/list', [EmployeeController::class, 'schedules'])->name('employee.schedules');
+            Route::get('/{scheduleID}/{action}', [ActionVesselScheduleController::class, 'handleAction'])->name('employee.handleActionSchedule');
+        });
+        Route::prefix('inspection')->group(function () {
+            Route::get('/list', [EmployeeController::class, 'inspection'])->name('employee.inspection');
+            Route::get('/{scheduleID}', [EmployeeController::class, 'vesselSchedule'])->name('employee.vesselSchedule');
+            // Route::get('/{scheduleID}/{action}', [ActionVesselScheduleController::class, 'handleAction'])->name('employee.handleActionSchedule');
+        });
     });
 
     Route::prefix('rentals')->group(function () {
@@ -86,8 +101,10 @@ Route::resource('equipment-rental', EquipmentRentalItemController::class);
 
 // Vessel Routes
 Route::resource('vessels', VesselController::class);
+Route::resource('services', VesselServiceController::class);
 Route::resource('vessel-schedules', VesselScheduleController::class);
 Route::resource('vessel-inspections', VesselInspectionController::class);
+Route::resource('vessel-inspections-details', VesselInspectionDetailController::class);
 
 // Diving Lessons Routes
 Route::resource('diving-lessons', DivingLessonController::class);

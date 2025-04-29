@@ -23,6 +23,6 @@ class VesselSchedule extends Model
 
     public function inspection()
     {
-        return $this->hasOne(VesselInspection::class);
+        return $this->hasOne(VesselInspection::class, 'schedule_id');
     }
 }

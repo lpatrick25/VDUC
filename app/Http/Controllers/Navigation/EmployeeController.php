@@ -9,6 +9,8 @@ use App\Models\DivingLesson;
 use App\Models\Equipment;
 use App\Models\Rental;
 use App\Models\User;
+use App\Models\Vessel;
+use App\Models\VesselService;
 use Illuminate\Http\Request;
 
 class EmployeeController extends Controller
@@ -67,5 +69,63 @@ class EmployeeController extends Controller
         $lessons = DivingLesson::all();
 
         return view('employee.applications', compact('divingApplications', 'users', 'lessons'));
+    }
+
+    public function services()
+    {
+        $services = VesselService::withCount('schedules')->get();
+        return view('employee.services', compact('services'));
+    }
+
+    public function vessels()
+    {
+        $vessels = Vessel::all();
+        $users = User::where('role', 'Survey Client')->get();
+        return view('employee.vessels', compact('vessels', 'users'));
+    }
+
+    public function schedules()
+    {
+        $vessels = Vessel::all();
+        $services = VesselService::all();
+        $vesselSchedules = Vessel::with('schedules')->get();
+        return view('employee.vessel-schedules', compact('vesselSchedules', 'vessels', 'services'));
+    }
+
+    public function inspection()
+    {
+        $vesselInspections = Vessel::whereHas('schedules', function ($query) {
+            $query->where('status', 'Completed');
+        })->with('inspections')->get();
+
+        return view('employee.vessel-inspections', compact('vesselInspections'));
+    }
+
+    public function vesselSchedule($schedule_id)
+    {
+        $vesselSchedule = Vessel::whereHas('schedules', function ($query) use ($schedule_id) {
+            $query->where('id', '=', $schedule_id);
+        })->with(['schedules', 'inspections'])->first();
+
+        if (!$vesselSchedule) {
+            abort(404, 'Schedule not found');
+        }
+
+        $inspection = $vesselSchedule->schedules->first()->inspection;
+
+        if (!$inspection) {
+            abort(404, 'Inspection not found');
+        }
+
+        $vesselInspectionDetails = $inspection->details->map(function ($detail) {
+            return [
+                'id' => $detail->id,
+                'title' => $detail->title,
+                'description' => $detail->description,
+                'remarks' => $detail->remarks,
+            ];
+        });
+
+        return view('employee.vessel-schedule-details', compact('vesselSchedule', 'schedule_id', 'vesselInspectionDetails'));
     }
 }

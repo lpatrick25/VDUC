@@ -2,7 +2,6 @@
 <div class="modal fade" id="returnModal" tabindex="-1" role="dialog" aria-labelledby="returnModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <form id="returnForm">
-            @csrf
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">Return Equipment Items</h5>
