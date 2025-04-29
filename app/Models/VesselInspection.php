@@ -18,7 +18,7 @@ class VesselInspection extends Model
 
     public function schedule()
     {
-        return $this->belongsTo(VesselSchedule::class);
+        return $this->belongsTo(VesselSchedule::class, 'schedule_id');
     }
 
     public function details()

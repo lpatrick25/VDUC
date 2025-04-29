@@ -4,8 +4,7 @@
 <div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content shadow-lg border-0">
-            <form id="addModalForm" method="POST">
-                @csrf
+            <form id="addModalForm">
                 <div class="modal-header bg-danger text-white">
                     <h5 class="modal-title text-white fw-bold" id="addModalLabel">Add Equipment</h5>
                     <button type="button" class="btn-close btn-close-white" data-dismiss="modal"

@@ -13,6 +13,6 @@ class VesselService extends Model
 
     public function schedules()
     {
-        return $this->hasMany(VesselSchedule::class);
+        return $this->hasMany(VesselSchedule::class, 'service_id');
     }
 }

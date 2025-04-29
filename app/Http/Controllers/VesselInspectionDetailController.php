@@ -4,62 +4,79 @@ namespace App\Http\Controllers;
 
 use App\Models\VesselInspectionDetail;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class VesselInspectionDetailController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        try {
+            $details = VesselInspectionDetail::all();
+            return $this->success($details, 'Vessel inspection details retrieved successfully');
+        } catch (\Exception $e) {
+            Log::error('Failed to fetch vessel inspection details: ' . $e->getMessage());
+            return $this->failed(null, 'Failed to fetch vessel inspection details', 500);
+        }
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'vessel_inspection_id' => 'required|exists:vessel_inspections,id',
+            'title'                => 'required|string|max:50',
+            'description'          => 'required|string',
+            'remarks'              => 'nullable|string',
+        ]);
+
+        try {
+            $detail = VesselInspectionDetail::create($validated);
+            return $this->success($detail, 'Vessel inspection detail created successfully', 201);
+        } catch (\Exception $e) {
+            Log::error('Failed to create vessel inspection detail: ' . $e->getMessage());
+            return $this->failed(null, 'Failed to create vessel inspection detail', 500);
+        }
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(VesselInspectionDetail $vesselInspectionDetail)
+    public function show($id)
     {
-        //
+        try {
+            $detail = VesselInspectionDetail::findOrFail($id);
+            return $this->success($detail, 'Vessel inspection detail retrieved successfully');
+        } catch (\Exception $e) {
+            Log::error("Failed to retrieve vessel inspection detail ID {$id}: " . $e->getMessage());
+            return $this->failed(null, 'Vessel inspection detail not found', 404);
+        }
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(VesselInspectionDetail $vesselInspectionDetail)
+    public function update(Request $request, $id)
     {
-        //
+        try {
+            $detail = VesselInspectionDetail::findOrFail($id);
+
+            $validated = $request->validate([
+                'vessel_inspection_id' => 'sometimes|required|exists:vessel_inspections,id',
+                'title'                => 'sometimes|required|string|max:50',
+                'description'          => 'sometimes|required|string',
+                'remarks'              => 'nullable|string',
+            ]);
+
+            $detail->update($validated);
+            return $this->success($detail, 'Vessel inspection detail updated successfully');
+        } catch (\Exception $e) {
+            Log::error("Failed to update vessel inspection detail ID {$id}: " . $e->getMessage());
+            return $this->failed(null, 'Failed to update vessel inspection detail', 500);
+        }
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, VesselInspectionDetail $vesselInspectionDetail)
+    public function destroy($id)
     {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(VesselInspectionDetail $vesselInspectionDetail)
-    {
-        //
+        try {
+            $detail = VesselInspectionDetail::findOrFail($id);
+            $detail->delete();
+            return $this->success(null, 'Vessel inspection detail deleted successfully');
+        } catch (\Exception $e) {
+            Log::error("Failed to delete vessel inspection detail ID {$id}: " . $e->getMessage());
+            return $this->failed(null, 'Failed to delete vessel inspection detail', 500);
+        }
     }
 }

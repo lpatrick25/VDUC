@@ -18,6 +18,17 @@
                 <li class="@yield('student-active')"><a href="{{ route('employee.students') }}"><i class="ri-record-circle-line"></i>Student</a></li>
             </ul>
         </li>
+        <li class="@yield('vessels-active')">
+            <a href="#menu-level" class="iq-waves-effect collapsed" data-toggle="collapse" aria-expanded="false"><i
+                    class="ri-record-circle-line iq-arrow-left"></i><span>Vessels</span><i class="ri-arrow-right-s-line iq-arrow-right"></i></a>
+            <ul id="menu-level" class="iq-submenu collapse" data-parent="#iq-sidebar-toggle">
+                <li class="@yield('vessel-active')"><a href="{{ route('employee.vessels') }}"><i class="ri-record-circle-line"></i>Lists</a></li>
+                <li class="@yield('service-active')"><a href="{{ route('employee.services') }}"><i class="ri-record-circle-line"></i>Services</a></li>
+                <li class="@yield('schedule-active')"><a href="{{ route('employee.schedules') }}"><i class="ri-record-circle-line"></i>Schedules</a></li>
+                <li class="@yield('inspection-active')"><a href="{{ route('employee.inspection') }}"><i class="ri-record-circle-line"></i>Inspections</a></li>
+                <li class="@yield('student-active')"><a href="{{ route('employee.students') }}"><i class="ri-record-circle-line"></i>Reports</a></li>
+            </ul>
+        </li>
     </ul>
 </nav>
 <div class="p-3"></div>

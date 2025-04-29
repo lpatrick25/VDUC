@@ -4,7 +4,7 @@
 <div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content shadow-lg border-0">
-            <form id="addModalForm" method="POST">
+            <form id="addModalForm">
                 @csrf
                 <div class="modal-header bg-danger text-white">
                     <h5 class="modal-title text-white fw-bold" id="addModalLabel">Add User</h5>
