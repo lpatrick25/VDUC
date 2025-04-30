@@ -15,6 +15,16 @@ use Illuminate\Http\Request;
 
 class EmployeeController extends Controller
 {
+    public function dashboard()
+    {
+        $employees = User::where('role', 'Employee')->count();
+        $students = User::where('role', 'Student')->count();
+        $surveys = User::where('role', 'Survey Client')->count();
+        $rentals = User::where('role', 'Rental Client')->count();
+
+        return view('employee.dashboard', compact('employees', 'students', 'surveys', 'rentals'));
+    }
+
     public function equipments()
     {
         $equipments = Equipment::with('rentalItems.rental')->get();

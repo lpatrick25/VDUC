@@ -6,7 +6,7 @@
     <meta charset="utf-8">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>@yield('APP-NAME') - {{ env('APP_NAME') }}</title>
+    <title>Sign-in - {{ env('APP_NAME') }}</title>
     <!-- Favicon -->
     <link rel="shortcut icon" href="{{ asset('images/logo1.png') }}" />
     <!-- Bootstrap CSS -->
@@ -17,82 +17,85 @@
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     <!-- Responsive CSS -->
     <link rel="stylesheet" href="{{ asset('css/responsive.css') }}">
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css">
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-    @yield('APP-CSS')
+    <style>
+        .sign-in-page {
+            background: linear-gradient(to right, #f5f7fa, #c3cfe2);
+        }
+
+        .form-control {
+            border-radius: 8px;
+            box-shadow: none;
+            transition: 0.3s ease;
+        }
+
+        .form-control:focus {
+            border-color: #0d6efd;
+            box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
+        }
+
+        .btn-primary {
+            background-color: #0d6efd;
+            border: none;
+            border-radius: 6px;
+            transition: background-color 0.3s;
+        }
+
+        .btn-primary:hover {
+            background-color: #0b5ed7;
+        }
+    </style>
 </head>
 
-<body class="sidebar-main-active right-column-fixed">
+<body>
     <!-- loader Start -->
     <div id="loading">
         <div id="loading-center">
         </div>
     </div>
     <!-- loader END -->
-    <!-- Wrapper Start -->
-    <div class="wrapper">
-        <!-- Sidebar  -->
-        <div class="iq-sidebar">
-            <div class="iq-navbar-logo d-flex justify-content-between">
-                <a href="index.html" class="header-logo">
-                    <img src="{{ asset('images/logo1.png') }}" class="img-fluid rounded" alt="">
-                    <span>VDUC</span>
-                </a>
-                <div class="iq-menu-bt align-self-center">
-                    <div class="wrapper-menu">
-                        <div class="main-circle"><i class="ri-menu-line"></i></div>
-                        <div class="hover-circle"><i class="ri-close-fill"></i></div>
+    <!-- Sign in Start -->
+    <section class="sign-up-page d-flex align-items-center min-vh-100 bg-light">
+        <div class="container">
+            <div class="row justify-content-center shadow rounded bg-white overflow-hidden">
+                <div class="col-md-6 p-5">
+                    <div class="text-center mb-4">
+                        <img src="images/logo1.png" alt="logo" class="mb-3" style="height: 50px;">
+                        <h2 class="mb-1">Welcome Back</h2>
+                        <p class="text-muted">Please sign in to your account</p>
+                    </div>
+                    <form id="loginForm">
+                        <div id="container-message"></div>
+                        <div class="form-group mb-3">
+                            <label>Email address</label>
+                            <input type="email" name="email" id="email" class="form-control form-control-lg"
+                                placeholder="Enter email">
+                        </div>
+                        <div class="form-group mb-3">
+                            <label>Password <a href="#"
+                                    class="float-end small text-decoration-none">Forgot?</a></label>
+                            <input type="password" name="password" id="password" class="form-control form-control-lg"
+                                placeholder="Password">
+                        </div>
+                        <div class="form-check mb-4">
+                            <input type="checkbox" class="form-check-input" id="rememberMe">
+                            <label class="form-check-label" for="rememberMe">Remember me</label>
+                        </div>
+                        <button class="btn btn-primary w-100 mb-3" type="submit">Sign In</button>
+                        <p class="text-center text-muted">Don't have an account? <a href="{{ route('signup') }}">Sign up</a></p>
+                    </form>
+                </div>
+                <div class="col-md-6 d-none d-md-block bg-primary text-white p-5">
+                    <div class="h-100 d-flex flex-column justify-content-center text-center">
+                        <img src="images/diving-1.jpg" class="img-fluid rounded mb-4" alt="promo">
+                        <h4 class="mb-2 text-white">Discover Your World</h4>
+                        <p class="small">Join our network and explore endless possibilities.</p>
                     </div>
                 </div>
             </div>
-            <div id="sidebar-scrollbar">
-                @if(auth()->user()->role === 'Admin' || auth()->user()->role === 'Super Admin')
-                    @include('admin.sidebar')
-                @elseif(auth()->user()->role === 'Employee')
-                    @include('employee.sidebar')
-                @elseif(auth()->user()->role === 'Survey Client')
-                    @include('survey.sidebar')
-                @elseif(auth()->user()->role === 'Student')
-                    @include('student.sidebar')
-                @elseif(auth()->user()->role === 'Rental Client')
-                    @include('rental.sidebar')
-                @endif
-            </div>
         </div>
-        <!-- TOP Nav Bar -->
-        @include('layouts.topbar')
-        <!-- TOP Nav Bar END -->
+    </section>
 
-        <!-- Page Content  -->
-        <div id="content-page" class="content-page">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-lg-12" id="container-message"></div>
-                    <div class="col-lg-12">
-                        @yield('APP-CONTENT')
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Wrapper END -->
-    <!-- Footer -->
-    <footer class="iq-footer">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-lg-6">
-                    <ul class="list-inline mb-0">
-                        <li class="list-inline-item"><a href="#">Privacy Policy</a></li>
-                        <li class="list-inline-item"><a href="#">Terms of Use</a></li>
-                    </ul>
-                </div>
-                <div class="col-lg-6 text-right">
-                    Copyright @php echo date('Y') @endphp <a href="#">{{ env('APP_NAME') }}</a> All Rights Reserved.
-                </div>
-            </div>
-        </div>
-    </footer>
-    <!-- Footer END -->
+    <!-- Sign in END -->
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
@@ -140,11 +143,7 @@
     <script src="{{ asset('js/chart-custom.js') }}"></script>
     <!-- Custom JavaScript -->
     <script src="{{ asset('js/custom.js') }}"></script>
-    <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-
-    <script type="text/javascript">
+    <script>
         const types = {
             success: {
                 bg: 'bg-success',
@@ -189,37 +188,6 @@
             setTimeout(() => container.fadeOut(), 5000);
         }
 
-        function showModalMessage(message, type = 'primary') {
-
-            const {
-                bg,
-                icon
-            } = types[type] || types.primary;
-
-            const container = $('#modal-message');
-
-            container.html(`
-                <div class="alert text-white ${bg}" role="alert">
-                    <div class="iq-alert-icon">${icon}</div>
-                    <div class="iq-alert-text">${message}</div>
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <i class="ri-close-line"></i>
-                    </button>
-                </div>`).show();
-
-            $('html, body').animate({
-                scrollTop: 0
-            }, 'slow');
-
-            setTimeout(() => container.fadeOut(), 5000);
-        }
-
-        function setModalMessage(modal, messageId = 'modal-message', messageClass = '', messageContent = '') {
-            const modalBody = modal.find('.modal-body');
-            modalBody.find(`#${messageId}`).remove();
-            modalBody.prepend(`<div id="${messageId}" class="${messageClass}">${messageContent}</div>`);
-        }
-
         $(document).ready(function() {
             $.ajaxSetup({
                 headers: {
@@ -227,15 +195,37 @@
                 }
             });
 
-            $('#table').DataTable({
-                paging: true,
-                searching: true,
-                info: true,
-                "order": [],
+            $('#loginForm').on('submit', function(e) {
+                e.preventDefault();
+
+                $.ajax({
+                    url: '{{ route('login') }}',
+                    method: 'POST',
+                    data: {
+                        email: $('#email').val(),
+                        password: $('#password').val(),
+                    },
+                    success: function(response) {
+                        if (response.status === 'success') {
+                            showContainerMessage(response.message, 'success');
+                            window.location.href = response.redirect;
+                        }
+                    },
+                    error: function(xhr) {
+                        const response = xhr.responseJSON;
+                        let errorMsg = response.message;
+
+                        if (response.errors) {
+                            errorMsg = Object.values(response.errors).join('\n');
+                        }
+                        showContainerMessage(response.message ||
+                            errorMsg,
+                            'error');
+                    }
+                });
             });
         });
     </script>
-    @yield('APP-SCRIPT')
 </body>
 
 </html>

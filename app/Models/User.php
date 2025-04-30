@@ -3,12 +3,14 @@
 namespace App\Models;
 
 use App\Traits\HasFullName;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Notifications\Notifiable;
 
-class User extends Model
+class User extends Authenticatable
 {
-    use HasFactory, HasFullName;
+    use Notifiable, HasFactory, HasFullName;
 
     protected $fillable = [
         'first_name',
@@ -38,4 +40,9 @@ class User extends Model
     {
         return $this->hasMany(DivingApplication::class);
     }
+
+    protected $hidden = [
+        'password',
+        'remember_token',
+    ];
 }
