@@ -12,6 +12,7 @@ use App\Http\Controllers\EquipmentRentalItemController;
 use App\Http\Controllers\Navigation\AdminController;
 use App\Http\Controllers\Navigation\EmployeeController;
 use App\Http\Controllers\RentalController;
+use App\Http\Controllers\Report\Equipment\ReportController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VesselController;
 use App\Http\Controllers\VesselInspectionController;
@@ -19,6 +20,7 @@ use App\Http\Controllers\VesselInspectionDetailController;
 use App\Http\Controllers\VesselScheduleController;
 use App\Http\Controllers\VesselServiceController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,8 +34,18 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
-});
+    return view('auth.sign-in');
+})->middleware('guest')->name('signin');
+
+Route::get('/sign-up', function () {
+    return view('auth.sign-up');
+})->middleware('guest')->name('signup');
+
+Route::post('/login', [AuthController::class, 'login'])->name('login');
+Route::post('/register', [AuthController::class, 'register'])->name('register');
+Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
+
+Route::get('/dashboard', [AuthController::class, 'dashboard'])->name('dashboard');
 
 Route::prefix('admin')->group(function () {
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
@@ -44,7 +56,7 @@ Route::prefix('admin')->group(function () {
 });
 
 Route::prefix('employee')->group(function () {
-    Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('employee.dashboard');
+    Route::get('/dashboard', [EmployeeController::class, 'dashboard'])->name('employee.dashboard');
 
     Route::prefix('equipments')->group(function () {
         Route::get('/list', [EmployeeController::class, 'equipments'])->name('employee.equipments');
@@ -87,6 +99,40 @@ Route::prefix('employee')->group(function () {
         Route::post('/confirm', [RentalActionController::class, 'confirmRental'])->name('rentals.confirm');
         Route::post('{rental}/action', [RentalActionController::class, 'handle'])->name('employee.rentals.action');
     });
+
+    Route::prefix('equipmentReports')->group(function () {
+        Route::get('', [ReportController::class, 'index'])->name('reports.equipmentReportIndex');
+        Route::get('/show', [ReportController::class, 'show'])->name('reports.equipmentReportShow');
+        Route::get('/render', [ReportController::class, 'render'])->name('reports.equipmentReportRender');
+        Route::post('/export', [ReportController::class, 'export'])->name('reports.equipmentReportExport');
+    });
+
+    Route::prefix('divingReports')->group(function () {
+        Route::get('', [ReportController::class, 'index'])->name('reports.divingReportIndex');
+        Route::get('/show', [ReportController::class, 'show'])->name('reports.equipmentReportShow');
+        Route::get('/render', [ReportController::class, 'render'])->name('reports.equipmentReportRender');
+        Route::post('/export', [ReportController::class, 'export'])->name('reports.equipmentReportExport');
+    });
+
+    Route::prefix('vesselReport')->group(function () {
+        Route::get('', [ReportController::class, 'index'])->name('reports.vesselReportIndex');
+        Route::get('/show', [ReportController::class, 'show'])->name('reports.equipmentReportShow');
+        Route::get('/render', [ReportController::class, 'render'])->name('reports.equipmentReportRender');
+        Route::post('/export', [ReportController::class, 'export'])->name('reports.equipmentReportExport');
+    });
+
+});
+
+Route::prefix('survey_client')->group(function () {
+    Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('survey_client.dashboard');
+});
+
+Route::prefix('student')->group(function () {
+    Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('student.dashboard');
+});
+
+Route::prefix('rental_client')->group(function () {
+    Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('rental_client.dashboard');
 });
 
 // User Routes

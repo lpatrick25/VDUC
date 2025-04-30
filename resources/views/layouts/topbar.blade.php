@@ -18,8 +18,8 @@
                     <a href="#" class="search-toggle iq-waves-effect d-flex align-items-center">
                         <img src="{{ asset('images/user/1.jpg') }}" class="img-fluid rounded mr-3" alt="user">
                         <div class="caption">
-                            <h6 class="mb-0 line-height">Administrator</h6>
-                            <p class="mb-0">Admin</p>
+                        <h6 class="mb-0 line-height">{{ auth()->user()->full_name }}</h6>
+                            <p class="mb-0">{{ auth()->user()->role }}</p>
                         </div>
                     </a>
                     <div class="iq-sub-dropdown iq-user-dropdown">
@@ -62,7 +62,7 @@
                                     </div>
                                 </a>
                                 <div class="d-inline-block w-100 text-center p-3">
-                                    <a class="bg-primary iq-sign-btn" href="sign-in.html" role="button">Sign
+                                    <a class="bg-primary iq-sign-btn" href="{{ route('logout') }}" role="button">Sign
                                         out<i class="ri-login-box-line ml-2"></i></a>
                                 </div>
                             </div>

@@ -45,4 +45,11 @@ class Equipment extends Model
     {
         return $this->available_quantity > 0 ? 'Available' : 'Not Available';
     }
+
+    public function rentals()
+    {
+        return $this->belongsToMany(Rental::class, 'equipment_rental_items')
+            ->withPivot('quantity')
+            ->withTimestamps();
+    }
 }
