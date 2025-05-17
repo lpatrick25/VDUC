@@ -21,6 +21,7 @@ use App\Http\Controllers\VesselScheduleController;
 use App\Http\Controllers\VesselServiceController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\Navigation\RentalClientController;
 
 /*
 |--------------------------------------------------------------------------
@@ -109,18 +110,17 @@ Route::prefix('employee')->group(function () {
 
     Route::prefix('divingReports')->group(function () {
         Route::get('', [ReportController::class, 'index'])->name('reports.divingReportIndex');
-        Route::get('/show', [ReportController::class, 'show'])->name('reports.equipmentReportShow');
-        Route::get('/render', [ReportController::class, 'render'])->name('reports.equipmentReportRender');
-        Route::post('/export', [ReportController::class, 'export'])->name('reports.equipmentReportExport');
+        Route::get('/show', [ReportController::class, 'show'])->name('reports.divingReportShow');
+        Route::get('/render', [ReportController::class, 'render'])->name('reports.divingReportRender');
+        Route::post('/export', [ReportController::class, 'export'])->name('reports.divingReportExport');
     });
 
     Route::prefix('vesselReport')->group(function () {
         Route::get('', [ReportController::class, 'index'])->name('reports.vesselReportIndex');
-        Route::get('/show', [ReportController::class, 'show'])->name('reports.equipmentReportShow');
-        Route::get('/render', [ReportController::class, 'render'])->name('reports.equipmentReportRender');
-        Route::post('/export', [ReportController::class, 'export'])->name('reports.equipmentReportExport');
+        Route::get('/show', [ReportController::class, 'show'])->name('reports.vesselReportShow');
+        Route::get('/render', [ReportController::class, 'render'])->name('reports.vesselReportRender');
+        Route::post('/export', [ReportController::class, 'export'])->name('reports.vesselReportExport');
     });
-
 });
 
 Route::prefix('survey_client')->group(function () {
@@ -133,6 +133,7 @@ Route::prefix('student')->group(function () {
 
 Route::prefix('rental_client')->group(function () {
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('rental_client.dashboard');
+    Route::get('/rentals', [RentalClientController::class, 'rentals'])->name('rental_client.rentals');
 });
 
 // User Routes
