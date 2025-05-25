@@ -22,6 +22,8 @@ use App\Http\Controllers\VesselServiceController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 
+use App\Http\Controllers\LandingController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -32,8 +34,40 @@ use App\Http\Controllers\AuthController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+Route::get('/', [LandingController:: class, 'index']);
 
-Route::get('/', function () {
+Route::get('/home', function () {
+    return view('landing.home');
+})->name('home');
+
+Route::get('/about', function () {
+    return view('landing.about');
+})->name('about');
+
+Route::get('/service', function () {
+    return view('landing.services');
+})->name('service');
+
+
+Route::get('/operation_survey', function () {
+    return view('landing.operation.survey');
+})->name('survey');
+
+
+Route::get('/operation_rental', function () {
+    return view('landing.operation.rental');
+})->name('rental');
+
+Route::get('/operation_lesson', function () {
+    return view('landing.operation.lesson');
+})->name('diving_lesson');
+
+Route::get('/contact', function () {
+    return view('landing.contact');
+})->name('contact');
+
+
+Route::get('/sign-in', function () {
     return view('auth.sign-in');
 })->middleware('guest')->name('signin');
 
