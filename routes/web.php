@@ -21,7 +21,8 @@ use App\Http\Controllers\VesselScheduleController;
 use App\Http\Controllers\VesselServiceController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\Navigation\RentalClientController;
+
+use App\Http\Controllers\LandingController;
 
 /*
 |--------------------------------------------------------------------------
@@ -33,8 +34,40 @@ use App\Http\Controllers\Navigation\RentalClientController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+Route::get('/', [LandingController:: class, 'index']);
 
-Route::get('/', function () {
+Route::get('/home', function () {
+    return view('landing.home');
+})->name('home');
+
+Route::get('/about', function () {
+    return view('landing.about');
+})->name('about');
+
+Route::get('/service', function () {
+    return view('landing.services');
+})->name('service');
+
+
+Route::get('/operation_survey', function () {
+    return view('landing.operation.survey');
+})->name('survey');
+
+
+Route::get('/operation_rental', function () {
+    return view('landing.operation.rental');
+})->name('rental');
+
+Route::get('/operation_lesson', function () {
+    return view('landing.operation.lesson');
+})->name('diving_lesson');
+
+Route::get('/contact', function () {
+    return view('landing.contact');
+})->name('contact');
+
+
+Route::get('/sign-in', function () {
     return view('auth.sign-in');
 })->middleware('guest')->name('signin');
 
@@ -110,17 +143,18 @@ Route::prefix('employee')->group(function () {
 
     Route::prefix('divingReports')->group(function () {
         Route::get('', [ReportController::class, 'index'])->name('reports.divingReportIndex');
-        Route::get('/show', [ReportController::class, 'show'])->name('reports.divingReportShow');
-        Route::get('/render', [ReportController::class, 'render'])->name('reports.divingReportRender');
-        Route::post('/export', [ReportController::class, 'export'])->name('reports.divingReportExport');
+        Route::get('/show', [ReportController::class, 'show'])->name('reports.equipmentReportShow');
+        Route::get('/render', [ReportController::class, 'render'])->name('reports.equipmentReportRender');
+        Route::post('/export', [ReportController::class, 'export'])->name('reports.equipmentReportExport');
     });
 
     Route::prefix('vesselReport')->group(function () {
         Route::get('', [ReportController::class, 'index'])->name('reports.vesselReportIndex');
-        Route::get('/show', [ReportController::class, 'show'])->name('reports.vesselReportShow');
-        Route::get('/render', [ReportController::class, 'render'])->name('reports.vesselReportRender');
-        Route::post('/export', [ReportController::class, 'export'])->name('reports.vesselReportExport');
+        Route::get('/show', [ReportController::class, 'show'])->name('reports.equipmentReportShow');
+        Route::get('/render', [ReportController::class, 'render'])->name('reports.equipmentReportRender');
+        Route::post('/export', [ReportController::class, 'export'])->name('reports.equipmentReportExport');
     });
+
 });
 
 Route::prefix('survey_client')->group(function () {
@@ -133,7 +167,6 @@ Route::prefix('student')->group(function () {
 
 Route::prefix('rental_client')->group(function () {
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('rental_client.dashboard');
-    Route::get('/rentals', [RentalClientController::class, 'rentals'])->name('rental_client.rentals');
 });
 
 // User Routes
