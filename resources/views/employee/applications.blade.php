@@ -80,6 +80,12 @@
                                                 data-id="{{ $divingApplication->id }}">
                                                 <i class="ri-flag-2-line"></i> Set Complete
                                             </button>
+
+                                            <button type="button" class="btn btn-sm btn-secondary setNewScheduleBtn"
+                                                data-id="{{ $divingApplication->id }}">
+                                                <i class="ri-calendar-2-line"></i> Set Schedule
+                                            </button>
+
                                         @elseif ($divingApplication->status === 'Completed')
                                             <button type="button" class="btn btn-sm btn-info viewDiversLogBtn"
                                                 data-id="{{ $divingApplication->id }}">

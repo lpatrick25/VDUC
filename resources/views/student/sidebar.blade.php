@@ -17,6 +17,28 @@
                 <li><a href="#"><i class="ri-record-circle-line"></i>Menu 4</a></li>
             </ul>
         </li>
+
+         <li class="@yield('dive-logs-active')">
+            <a href="" class="iq-waves-effect collapsed" data-toggle="collapse" aria-expanded="false">
+                <i class="ri-record-circle-line iq-arrow-left"></i>
+                <span>Dive Logs</span>
+            </a>
+        </li>
+
+         <li class="@yield('terms-of-service-active')">
+            <a href="" class="iq-waves-effect collapsed" data-toggle="collapse" aria-expanded="false">
+                <i class="ri-record-circle-line iq-arrow-left"></i>
+                <span>Terms of Services</span>
+            </a>
+        </li>
+
+          <li class="@yield('contact-vduci-active')">
+            <a href="" class="iq-waves-effect collapsed" data-toggle="collapse" aria-expanded="false">
+                <i class="ri-record-circle-line iq-arrow-left"></i>
+                <span>Contact VDUCI</span>
+            </a>
+        </li>
+
     </ul>
 </nav>
 <div class="p-3"></div>

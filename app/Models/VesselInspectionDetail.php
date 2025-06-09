@@ -9,7 +9,15 @@ class VesselInspectionDetail extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['vessel_inspection_id', 'title', 'description', 'remarks'];
+    protected $fillable = [
+        'vessel_inspection_id',
+        'title',
+        'description',
+        'remarks',
+        'marine_growth',
+        'corrosion',
+        'paint_coating',
+    ];
 
     public function inspection()
     {
