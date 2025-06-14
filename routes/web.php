@@ -24,6 +24,8 @@ use App\Http\Controllers\AuthController;
 
 use App\Http\Controllers\LandingController;
 
+
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -65,6 +67,12 @@ Route::get('/operation_lesson', function () {
 Route::get('/contact', function () {
     return view('landing.contact');
 })->name('contact');
+
+// Route::get('/vessel_rep', function () {
+//     return view('reports\equipments.inspection_report');
+// })->name('vessel_report');
+
+
 
 
 Route::get('/sign-in', function () {
@@ -123,6 +131,7 @@ Route::prefix('employee')->group(function () {
         Route::prefix('inspection')->group(function () {
             Route::get('/list', [EmployeeController::class, 'inspection'])->name('employee.inspection');
             Route::get('/{scheduleID}', [EmployeeController::class, 'vesselSchedule'])->name('employee.vesselSchedule');
+            Route::get('/{scheduleID}/reports', [EmployeeController::class, 'vesselInspectionReport'])->name('employee.vesselInspectionReport');
             // Route::get('/{scheduleID}/{action}', [ActionVesselScheduleController::class, 'handleAction'])->name('employee.handleActionSchedule');
         });
     });

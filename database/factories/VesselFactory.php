@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class VesselFactory extends Factory
@@ -27,7 +28,7 @@ class VesselFactory extends Factory
             'year_built' => $this->faker->date(),
             'launch_date' => $this->faker->date(),
             'horse_power' => $this->faker->numberBetween(1000, 5000) . ' hp',
-            'user_id' => \App\Models\User::inRandomOrder()->first()->id,
+            'user_id' => User::factory()->state(['role' => 'Survey Client']),
         ];
     }
 }

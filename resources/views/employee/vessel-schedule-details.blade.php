@@ -30,6 +30,7 @@
                     <div class="iq-card-header-toolbar d-flex align-items-center">
                         <button type="button" id="addBtn" class="btn btn-primary" data-toggle="modal"
                             data-target="#addModal" class="btn btn-primary">Add New Inspection Details</button>
+                        <a href="/employee/vessels/inspection/{{ $vesselSchedule->id }}/reports" id="printBtn" class="btn btn-success" class="btn btn-primary">Print Inspection Reports</a>
                     </div>
                 </div>
             </div>
@@ -119,7 +120,7 @@
                         vesselInspectionID = data.id;
                         $('#editModal').find('select[name="title"]').val(data.title);
                         $('#editModal').find('select[name="description"]').val(data
-                        .description);
+                            .description);
                         $('#editModal').find('textarea[name="remarks"]').val(data.remarks);
                         $('#editModal').modal('show');
                     },
