@@ -21,6 +21,14 @@
                             <label for="quantity" class="form-label fw-bold">Quantity</label>
                             <input type="number" class="form-control" id="quantity" name="quantity" required>
                         </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="equipment_image">Equipment Image</label>
+                                <input type="file" name="equipment_image" id="equipment_image" class="form-control"
+                                    accept="image/*">
+                                <div id="imagePreview" style="margin-top:10px;"></div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer bg-light">
@@ -31,3 +39,21 @@
         </div>
     </div>
 </div>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const input = document.getElementById('equipment_image');
+    const preview = document.getElementById('imagePreview');
+    if(input) {
+        input.addEventListener('change', function(e) {
+            preview.innerHTML = '';
+            if (this.files && this.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    preview.innerHTML = `<img src="${e.target.result}" alt="Preview" style="max-width: 100%; max-height: 200px; border:1px solid #ccc; border-radius:5px;" />`;
+                }
+                reader.readAsDataURL(this.files[0]);
+            }
+        });
+    }
+});
+</script>

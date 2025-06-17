@@ -24,10 +24,16 @@ class EquipmentController extends Controller
         $validated = $request->validate([
             'equipment_name' => 'required|string|max:255',
             'quantity'       => 'required|integer|min:1',
+            'equipment_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
         try {
             $equipment = Equipment::create($validated);
+            if ($request->hasFile('equipment_image')) {
+                $path = $request->file('equipment_image')->store('equipment_images', 'public');
+                $equipment->image = $path;
+                $equipment->save();
+            }
             return $this->success($equipment, 'Equipment created successfully', 201);
         } catch (\Exception $e) {
             Log::error('Failed to create equipment: ' . $e->getMessage());
@@ -54,9 +60,15 @@ class EquipmentController extends Controller
             $validated = $request->validate([
                 'equipment_name' => 'sometimes|required|string|max:255',
                 'quantity'       => 'sometimes|required|integer|min:1',
+                'equipment_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             ]);
 
             $equipment->update($validated);
+            if ($request->hasFile('equipment_image')) {
+                $path = $request->file('equipment_image')->store('equipment_images', 'public');
+                $equipment->image = $path;
+                $equipment->save();
+            }
             return $this->success($equipment, 'Equipment updated successfully');
         } catch (\Exception $e) {
             Log::error("Failed to update equipment ID {$id}: " . $e->getMessage());

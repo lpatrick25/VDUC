@@ -24,6 +24,7 @@
                             <th>Rented</th>
                             <th>Status</th>
                             <th>Created Date</th>
+                            <th>Image</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -57,6 +58,14 @@
                                     @endif
                                 </td>
                                 <td>{{ date('F j, Y', strtotime($equipment->created_at)) }}</td>
+                                <td>
+                                    @if ($equipment->image)
+                                        <img src="{{ asset('storage/' . $equipment->image) }}" alt="Equipment Image"
+                                            style="max-width: 60px; max-height: 60px; border-radius: 5px; border: 1px solid #ccc;" />
+                                    @else
+                                        <span class="text-muted">No Image</span>
+                                    @endif
+                                </td>
                                 <td>
                                     <button type="button" class="btn btn-primary editBtn" data-id="{{ $equipment->id }}"
                                         data-toggle="modal" data-target="#editModal">Edit</button>
@@ -122,6 +131,12 @@
                         equipmentID = data.id;
                         $('#editModal').find('input[name="equipment_name"]').val(data.equipment_name);
                         $('#editModal').find('input[name="quantity"]').val(data.quantity);
+                        // Show current image in preview if exists
+                        if (data.image) {
+                            $('#editImagePreview').html(`<img src='${window.location.origin}/storage/${data.image}' style='max-width:100%;max-height:200px;border:1px solid #ccc;border-radius:5px;' />`);
+                        } else {
+                            $('#editImagePreview').html('<span class="text-muted">No Image</span>');
+                        }
                         $('#editModal').modal('show');
                     },
                     error: function(err) {
@@ -134,11 +149,13 @@
                 e.preventDefault();
                 const addModal = $('#addModal');
                 setModalMessage(addModal);
-                const formData = $(this).serialize();
+                const formData = new FormData(this);
                 $.ajax({
                     url: '/equipments',
                     method: 'POST',
                     data: formData,
+                    processData: false,
+                    contentType: false,
                     dataType: 'JSON',
                     success: function(response) {
                         if (response.success) {
@@ -155,10 +172,15 @@
                                 errorMessages += `${errors[field].join(', ')}\n`;
                             }
                             showModalMessage(errorMessages, 'error');
+                        } else if (err.responseJSON && err.responseJSON.message) {
+                            // Show backend error message if available
+                            showModalMessage(err.responseJSON.message, 'error');
+                        } else if (err.responseText) {
+                            // Try to show raw response text (may help with debugging)
+                            showModalMessage(err.responseText, 'error');
                         } else {
-                            console.error('Error adding user:', err);
-                            showModalMessage('An unexpected error occurred. Please try again.',
-                                'error');
+                            console.error('Error adding equipment:', err);
+                            showModalMessage('An unexpected error occurred. Please try again.', 'error');
                         }
                     }
                 });
@@ -168,12 +190,15 @@
                 e.preventDefault();
                 const editModal = $('#editModal');
                 setModalMessage(editModal);
-                const formData = $(this).serialize();
+                const formData = new FormData(this);
                 $.ajax({
                     url: `/equipments/${equipmentID}`,
-                    method: 'PUT',
+                    method: 'POST', // Use POST for file upload with _method override
                     data: formData,
+                    processData: false,
+                    contentType: false,
                     dataType: 'JSON',
+                    headers: { 'X-HTTP-Method-Override': 'PUT' },
                     success: function(response) {
                         if (response.success) {
                             $('#editModal').modal('hide');
@@ -189,10 +214,15 @@
                                 errorMessages += `${errors[field].join(', ')}\n`;
                             }
                             showModalMessage(errorMessages, 'error');
+                        } else if (err.responseJSON && err.responseJSON.message) {
+                            // Show backend error message if available
+                            showModalMessage(err.responseJSON.message, 'error');
+                        } else if (err.responseText) {
+                            // Try to show raw response text (may help with debugging)
+                            showModalMessage(err.responseText, 'error');
                         } else {
-                            console.error('Error updating user:', err);
-                            showModalMessage('An unexpected error occurred. Please try again.',
-                                'error');
+                            console.error('Error updating equipment:', err);
+                            showModalMessage('An unexpected error occurred. Please try again.', 'error');
                         }
                     }
                 });

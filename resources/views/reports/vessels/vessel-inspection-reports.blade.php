@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Certificate of Underwater Hull Survey/Inspection</title>
 
+
+
     <style type="text/css" media="print">
         @page {
             size: Legal portrait;
@@ -122,6 +124,12 @@
 </head>
 
 <body>
+
+    <div style="text-align: right; margin-top: 20px;">
+        <button onclick="triggerPrint()" class="btn btn-success" class="btn btn-primary" style="margin-right: 10px;">Print
+            Report</button>
+    </div>
+
     <div class="certificate">
         <!-- HEADER SECTION -->
         <div class="header">
@@ -380,7 +388,10 @@
 
             @if (in_array('8. Starboard Amidship Hull', $titles))
                 @php
-                    $starboardAmidshipHull = $vesselInspectionDetails->firstWhere('title', '8. Starboard Amidship Hull');
+                    $starboardAmidshipHull = $vesselInspectionDetails->firstWhere(
+                        'title',
+                        '8. Starboard Amidship Hull',
+                    );
                 @endphp
                 <h3>8. STARBOARD AMIDSHIP HULL</h3>
                 <div class="starboard_amidship_hull">
@@ -474,6 +485,13 @@
             <p>ISSUED BY: VISAYAN DIVERS UNDERWATER CONTRACTOR INC.</p>
         </div>
     </div>
-</body>
+
+
 
 </html>
+</body>
+<script>
+    function triggerPrint() {
+        window.print();
+    }
+</script>

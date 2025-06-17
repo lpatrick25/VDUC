@@ -9,7 +9,7 @@ class Equipment extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['equipment_name', 'quantity'];
+    protected $fillable = ['equipment_name', 'quantity', 'image'];
 
     public function rentalItems()
     {

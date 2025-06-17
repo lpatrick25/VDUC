@@ -148,6 +148,7 @@ Route::prefix('employee')->group(function () {
         Route::get('/show', [ReportController::class, 'show'])->name('reports.equipmentReportShow');
         Route::get('/render', [ReportController::class, 'render'])->name('reports.equipmentReportRender');
         Route::post('/export', [ReportController::class, 'export'])->name('reports.equipmentReportExport');
+         Route::post('/print', [ReportController::class, 'export'])->name('reports.equipmentReportPrint');
     });
 
     Route::prefix('divingReports')->group(function () {
@@ -162,6 +163,7 @@ Route::prefix('employee')->group(function () {
         Route::get('/show', [ReportController::class, 'show'])->name('reports.equipmentReportShow');
         Route::get('/render', [ReportController::class, 'render'])->name('reports.equipmentReportRender');
         Route::post('/export', [ReportController::class, 'export'])->name('reports.equipmentReportExport');
+        Route::post('/print', [ReportController::class, 'print'])->name('reports.equipmentReportPrint');
     });
 
 });
