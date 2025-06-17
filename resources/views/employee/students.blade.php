@@ -99,7 +99,8 @@
                     success: function(applications) {
                         if (applications.length > 0) {
                             var filteredApplications = applications.filter(function(app) {
-                                return app.status === 'Ongoing';
+                                return app.status === 'Ongoing' || app.status ===
+                                    'Completed';
                             });
 
                             if (filteredApplications.length > 0) {
@@ -150,6 +151,9 @@
             // Load Diver's Logs when an application is selected
             $(document).on('click', '.selectApplicationBtn', function() {
                 var applicationId = $(this).data('application-id');
+
+                $('#addDiversLogForm').find('input[name=application_id]').val(
+                    applicationId);
                 $('#diversLogsTable').empty();
                 $('#diversLogsSection').removeClass('d-none');
 
@@ -176,8 +180,6 @@
                                     `;
                                 $('#diversLogsTable').append(logRow);
                             });
-                            $('#addDiversLogForm').find('input[name=application_id]').val(
-                                applicationId);
                         } else {
                             $('#diversLogsTable').html(
                                 '<tr><td colspan="6" class="text-muted text-center">No diver\'s logs available.</td></tr>'
