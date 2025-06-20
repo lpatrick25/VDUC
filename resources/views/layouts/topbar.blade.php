@@ -18,7 +18,7 @@
                     <a href="#" class="search-toggle iq-waves-effect d-flex align-items-center">
                         <img src="{{ asset('images/user/1.jpg') }}" class="img-fluid rounded mr-3" alt="user">
                         <div class="caption">
-                        <h6 class="mb-0 line-height">{{ auth()->user()->full_name }}</h6>
+                            <h6 class="mb-0 line-height">{{ auth()->user()->full_name }}</h6>
                             <p class="mb-0">{{ auth()->user()->role }}</p>
                         </div>
                     </a>
@@ -28,7 +28,8 @@
                                 <div class="bg-primary p-3">
                                     <h5 class="mb-0 text-white line-height">Hello! Administrator</h5>
                                 </div>
-                                <a href="#" class="iq-sub-card iq-bg-primary-hover">
+                                <a href="{{ route('profile.show') }}" id="viewProfileBtn"
+                                    class="iq-sub-card iq-bg-primary-hover">
                                     <div class="media align-items-center">
                                         <div class="rounded iq-card-icon iq-bg-primary">
                                             <i class="ri-file-user-line"></i>
@@ -39,7 +40,7 @@
                                         </div>
                                     </div>
                                 </a>
-                                <a href="#" class="iq-sub-card iq-bg-primary-hover">
+                                <a href="#" id="editProfileBtn" class="iq-sub-card iq-bg-primary-hover">
                                     <div class="media align-items-center">
                                         <div class="rounded iq-card-icon iq-bg-primary">
                                             <i class="ri-profile-line"></i>
@@ -50,7 +51,7 @@
                                         </div>
                                     </div>
                                 </a>
-                                <a href="#" class="iq-sub-card iq-bg-primary-hover">
+                                <a href="#" id="accountSettingsBtn" class="iq-sub-card iq-bg-primary-hover">
                                     <div class="media align-items-center">
                                         <div class="rounded iq-card-icon iq-bg-primary">
                                             <i class="ri-account-box-line"></i>

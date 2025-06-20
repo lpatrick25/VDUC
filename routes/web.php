@@ -22,6 +22,7 @@ use App\Http\Controllers\VesselServiceController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Navigation\RentalClientController;
+use App\Http\Controllers\ProfileController;
 
 /*
 |--------------------------------------------------------------------------
@@ -159,3 +160,8 @@ Route::resource('divers-logs', DiversLogController::class);
 
 // Diving Applications Routes
 Route::resource('diving-applications', DivingApplicationController::class);
+
+// Profile Controller
+Route::get('/profile', [ProfileController::class, 'show'])->name('profile.show');
+Route::put('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
+Route::put('/profile/password', [ProfileController::class, 'updatePassword'])->name('profile.updatePassword');

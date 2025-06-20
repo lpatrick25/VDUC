@@ -46,7 +46,7 @@
                 </div>
             </div>
             <div id="sidebar-scrollbar">
-                @if(auth()->user()->role === 'Admin' || auth()->user()->role === 'Super Admin')
+                @if (auth()->user()->role === 'Admin' || auth()->user()->role === 'Super Admin')
                     @include('admin.sidebar')
                 @elseif(auth()->user()->role === 'Employee')
                     @include('employee.sidebar')
@@ -165,12 +165,10 @@
         };
 
         function showContainerMessage(message, type = 'primary') {
-
             const {
                 bg,
                 icon
             } = types[type] || types.primary;
-
             const container = $('#container-message');
 
             container.html(`
@@ -178,24 +176,21 @@
                     <div class="iq-alert-icon">${icon}</div>
                     <div class="iq-alert-text">${message}</div>
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <i class="ri-close-line"></i>
+                        <i class="ri-close-line"></i>
                     </button>
                 </div>`).show();
 
             $('html, body').animate({
                 scrollTop: 0
             }, 'slow');
-
             setTimeout(() => container.fadeOut(), 5000);
         }
 
         function showModalMessage(message, type = 'primary') {
-
             const {
                 bg,
                 icon
             } = types[type] || types.primary;
-
             const container = $('#modal-message');
 
             container.html(`
@@ -203,14 +198,13 @@
                     <div class="iq-alert-icon">${icon}</div>
                     <div class="iq-alert-text">${message}</div>
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <i class="ri-close-line"></i>
+                        <i class="ri-close-line"></i>
                     </button>
                 </div>`).show();
 
             $('html, body').animate({
                 scrollTop: 0
             }, 'slow');
-
             setTimeout(() => container.fadeOut(), 5000);
         }
 
@@ -233,9 +227,48 @@
                 info: true,
                 "order": [],
             });
+
+            // === START: Profile & Settings Buttons ===
+
+            // Show profile modal
+            $('#viewProfileBtn').on('click', function() {
+                $('#viewProfileModal').modal('show');
+            });
+
+            // Show edit profile modal and load current data
+            $('#editProfileBtn').on('click', function() {
+                $.ajax({
+                    url: "{{ route('profile.show') }}",
+                    type: 'GET',
+                    success: function(data) {
+                        $('#edit_first_name').val(data.first_name);
+                        $('#edit_middle_name').val(data.middle_name);
+                        $('#edit_last_name').val(data.last_name);
+                        $('#edit_email').val(data.email);
+                        $('#edit_phone_number').val(data.phone_number);
+                        if (data.profile_picture) {
+                            $('#edit_profile_preview').attr('src', '/storage/' + data
+                                .profile_picture);
+                        }
+                        $('#editProfileModal').modal('show');
+                    },
+                    error: function() {
+                        showContainerMessage("Failed to load profile info", 'error');
+                    }
+                });
+            });
+
+            // Show change password modal
+            $('#accountSettingsBtn').on('click', function() {
+                $('#changePasswordModal').modal('show');
+            });
+
+            // === END: Profile & Settings Buttons ===
         });
     </script>
+
     @yield('APP-SCRIPT')
+
 </body>
 
 </html>
