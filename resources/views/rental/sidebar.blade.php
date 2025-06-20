@@ -27,7 +27,7 @@
             </a>
         </li>
         <li>
-            <a href="" class="iq-waves-effect collapsed" data-toggle="collapse" aria-expanded="false">
+            <a href="#" data-toggle="modal" data-target="#termOfService" class="iq-waves-effect collapsed" data-toggle="collapse" aria-expanded="false">
                 <i class="ri-record-circle-line iq-arrow-left"></i>
                 <span>Terms of Services</span>
             </a>

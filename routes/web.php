@@ -68,11 +68,6 @@ Route::get('/contact', function () {
     return view('landing.contact');
 })->name('contact');
 
-// Route::get('/vessel_rep', function () {
-//     return view('reports\equipments.inspection_report');
-// })->name('vessel_report');
-
-
 
 
 Route::get('/sign-in', function () {
@@ -186,9 +181,12 @@ Route::resource('users', UserController::class);
 // Equipment Routes
 Route::resource('equipments', EquipmentController::class);
 
+
 // Rental Routes
 Route::resource('rentals', RentalController::class);
 Route::resource('equipment-rental', EquipmentRentalItemController::class);
+
+
 
 // Vessel Routes
 Route::resource('vessels', VesselController::class);

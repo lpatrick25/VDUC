@@ -19,6 +19,19 @@
     <link rel="stylesheet" href="{{ asset('css/responsive.css') }}">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css">
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
+      <style>
+        /* Remove underlines from links and list items */
+        a, .list li {
+            text-decoration: none !important;
+        }
+        /* Ensure modal content doesn't inherit unwanted underlines */
+        .modal-content, .modal-content * {
+            text-decoration: none !important;
+        }
+    </style>
+    
     @yield('APP-CSS')
 </head>
 
@@ -92,6 +105,10 @@
             </div>
         </div>
     </footer>
+
+    @include('rental.terms')
+     @include('student.terms')
+
     <!-- Footer END -->
 
     <!-- Optional JavaScript -->
