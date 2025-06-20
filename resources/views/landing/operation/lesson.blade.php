@@ -15,15 +15,57 @@
     rescue diver
     divemaster
     instructor --}}
-    <section>
-        <div class="container">
+
+    <section class="portfolio">
+    <div class="container">
+        <div class="row">
             <div class="section-title">
-                <span>diving lesson</span>
-                <p>
-                    Explore our comprehensive diving lessons designed for all levels, from beginners to advanced divers,
-                    ensuring safety, skill development, and underwater exploration.
-                </p>
+                <span>Overview</span>
+                <div style="border-top: 2px solid #000000; border-radius: 5px; margin-top: 0;">
+
+                    <p>Whether you're just starting out or looking to level up your diving skills, we offer structured and professionally guided lessons tailored to every experience level.</p>
+
+                    <h3 class="montserrat-text uppercase"
+                        style="color: #000000; font-size: 1.5rem; text-align: left; margin-top: 30px;">Course Levels Offered:</h3>
+
+                    <ul class="list" style="text-align: left">
+                        <li> IntroDive – For absolute beginners; no prior experience required</li>
+                        <li> Open Water Diver – Basic certification-level skills</li>
+                        <li> Advanced Open Water Diver – Expands diving skills and depth limits</li>
+                        <li> Rescue Diver – Focused on safety, self-rescue, and helping others</li>
+                        <li> Dive Master – Prepares you for leadership-level diving roles</li>
+                    </ul>
+
+                    <h3 class="montserrat-text uppercase"
+                        style="color: #000000; font-size: 1.5rem; text-align: left; margin-top: 30px;">Requirements:</h3>
+
+                    <ul class="list" style="text-align: left">
+                        <li> Courses must be taken in order unless a valid certificate is presented</li>
+                        <li> Valid diving certificate and ID required for higher-level courses</li>
+                        <li> Medical clearance required for all participants</li>
+                    </ul>
+
+                    <h3 class="montserrat-text uppercase"
+                        style="color: #000000; font-size: 1.5rem; text-align: left; margin-top: 30px;">Important Note:</h3>
+
+                    <p>We provide <strong>training and lessons only</strong>. We do not issue official diving certifications, but we can recommend accredited partners for certification assessment and processing.</p>
+
+                    <h3 class="montserrat-text uppercase"
+                        style="color: #000000; font-size: 1.5rem; text-align: left; margin-top: 30px;">How It Works:</h3>
+
+                    <p>After registration, clients will join instructor-led sessions that include classroom-style instruction, safety briefings, and supervised in-water practice. All diving gear is provided during training sessions.</p>
+                </div>
+
+                <a href="/operation_survey" class="btn green" style="margin-top: 50px">get started</a>
+
             </div>
+        </div>
+    </div>
+</section>
+
+<section class="portfolio" style="margin-top: 0px;">
+        <div class="container">
+            <div class="row">
 
             <!-- Lesson Image -->
             <div class="small-title montserrat-text uppercase"

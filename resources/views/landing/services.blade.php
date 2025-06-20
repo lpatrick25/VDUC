@@ -27,9 +27,10 @@
 
 
                     <div class="col-md-6 wow fadeInUp" data-wow-delay=".1s">
-                        <img src="assets/img/img1.jpg" alt="img" style="width:100%">
+                        <img src="/images/underwaterdive.jpg" alt="Underwater diving"
+                            style="width: 100%; max-width: 500px; height: auto; display: block; margin: 0 auto; border-radius: 10px;">
                     </div>
-
+                    
                     <div>
                         <div class="col-md-6">
                             <ul class="list">
@@ -44,7 +45,7 @@
 
                             <a href="/operation_survey" class="btn green" style="margin-top:30px; max-width:150px;">
                                 <span>check us out</span>
-                              </a>
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -53,56 +54,6 @@
             </div>
         </div>
     </section>
-
-
-    <section>
-        <div class="container">
-            <div class="row">
-                <div class="col-md-3 col-sm-6 col-xs-10 wow fadeInUp">
-                    <div class="benefits_1_single">
-                        <i class="icon ion-ios-people"></i>
-                        <div class="title montserrat-text uppercase">experienced team</div>
-                        <p>
-                            Our team is composed of trained professionals committed to delivering reliable, high-quality
-                            underwater solutions.
-                        </p>
-                    </div>
-                </div>
-                <div class="col-md-3 col-sm-6 col-xs-10 wow fadeInUp" data-wow-delay=".1s">
-                    <div class="benefits_1_single">
-                        <i class="icon ion-ios-checkmark"></i>
-                        <div class="title montserrat-text uppercase">proven reliability</div>
-                        <p>
-                            With a strong track record and satisfied clients, we’ve earned a reputation for dependability
-                            and excellence.
-                        </p>
-                    </div>
-                </div>
-                <div class="col-md-3 col-sm-6 col-xs-10 wow fadeInUp" data-wow-delay=".2s">
-                    <div class="benefits_1_single">
-                        <i class="icon ion-ios-body"></i>
-                        <div class="title montserrat-text uppercase">safety focused</div>
-                        <p>
-                            We prioritize safety in every operation, following strict protocols to protect our team,
-                            clients, and environment.
-                        </p>
-                    </div>
-                </div>
-
-                <div class="col-md-3 col-sm-6 col-xs-10 wow fadeInUp" data-wow-delay=".3s">
-                    <div class="benefits_1_single">
-                        <i class="icon ion-ios-star-outline"></i>
-                        <div class="title montserrat-text uppercase">quality service</div>
-                        <p>
-                            We are dedicated to providing professional service and lasting value, tailored to meet your
-                            unique needs.
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
 
     <section class="pricing_plans">
         <div class="container">
@@ -168,6 +119,54 @@
                             <li>Magna aliquam erat volutpat</li>
                         </ul>
                         <a href="/operation_lesson" class="btn green"><span>get started</span></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3 col-sm-6 col-xs-10 wow fadeInUp">
+                    <div class="benefits_1_single">
+                        <i class="icon ion-ios-people"></i>
+                        <div class="title montserrat-text uppercase">experienced team</div>
+                        <p>
+                            Our team is composed of trained professionals committed to delivering reliable, high-quality
+                            underwater solutions.
+                        </p>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6 col-xs-10 wow fadeInUp" data-wow-delay=".1s">
+                    <div class="benefits_1_single">
+                        <i class="icon ion-ios-checkmark"></i>
+                        <div class="title montserrat-text uppercase">proven reliability</div>
+                        <p>
+                            With a strong track record and satisfied clients, we’ve earned a reputation for dependability
+                            and excellence.
+                        </p>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6 col-xs-10 wow fadeInUp" data-wow-delay=".2s">
+                    <div class="benefits_1_single">
+                        <i class="icon ion-ios-body"></i>
+                        <div class="title montserrat-text uppercase">safety focused</div>
+                        <p>
+                            We prioritize safety in every operation, following strict protocols to protect our team,
+                            clients, and environment.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="col-md-3 col-sm-6 col-xs-10 wow fadeInUp" data-wow-delay=".3s">
+                    <div class="benefits_1_single">
+                        <i class="icon ion-ios-star-outline"></i>
+                        <div class="title montserrat-text uppercase">quality service</div>
+                        <p>
+                            We are dedicated to providing professional service and lasting value, tailored to meet your
+                            unique needs.
+                        </p>
                     </div>
                 </div>
             </div>
