@@ -46,24 +46,6 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-lg-4">
-                                <div class="form-group">
-                                    <label for="marine_growth">Marine Growth</label>
-                                    <input type="text" name="marine_growth" id="marine_growth" class="form-control">
-                                </div>
-                            </div>
-                            <div class="col-lg-4">
-                                <div class="form-group">
-                                    <label for="corrosion">Corrosion</label>
-                                    <input type="text" name="corrosion" id="corrosion" class="form-control">
-                                </div>
-                            </div>
-                            <div class="col-lg-4">
-                                <div class="form-group">
-                                    <label for="paint_coating">Paint Coating</label>
-                                    <input type="text" name="paint_coating" id="paint_coating" class="form-control">
-                                </div>
-                            </div>
                             <div class="col-lg-12">
                                 <div class="form-group">
                                     <label for="remarks">Remarks <span class="text-danger"></span></label>

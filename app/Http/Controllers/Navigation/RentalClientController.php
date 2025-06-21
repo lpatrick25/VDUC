@@ -10,6 +10,67 @@ use Illuminate\Http\Request;
 
 class RentalClientController extends Controller
 {
+
+    /**
+     * Display the rental dashboard for the authenticated user.
+     *
+     * @return \Illuminate\View\View
+     */
+    public function dashboard()
+    {
+        $user = auth()->user();
+        $rentalsCount = Rental::where('user_id', $user->id)
+            ->whereIn('status', ['Pending', 'Confirmed', 'Released', 'Returned', 'Cancelled'])
+            ->count();
+
+        return view('rental.dashboard', compact('user', 'rentalsCount'));
+    }
+
+    public function divingGear()
+    {
+        $equipments = Equipment::where('category', 'Personal Diving Gear')
+            ->orderBy('equipment_name')
+            ->get();
+
+        return view('rental.diving_gear', compact('equipments'));
+    }
+
+    public function breathingApparatus()
+    {
+        $equipments = Equipment::where('category', 'Breathing Apparatus')
+            ->orderBy('equipment_name')
+            ->get();
+
+        return view('rental.breathing_apparatus', compact('equipments'));
+    }
+
+    public function diveInstruments()
+    {
+        $equipments = Equipment::where('category', 'Dive Instruments')
+            ->orderBy('equipment_name')
+            ->get();
+
+        return view('rental.dive_instruments', compact('equipments'));
+    }
+
+    public function communicationSafetyTools()
+    {
+        $equipments = Equipment::where('category', 'Communication & Safety Tools')
+            ->orderBy('equipment_name')
+            ->get();
+
+        return view('rental.communication_safety_tools', compact('equipments'));
+    }
+
+    public function specializedSurveyEquipment()
+    {
+        $equipments = Equipment::where('category', 'Specialized Survey Equipment')
+            ->orderBy('equipment_name')
+            ->get();
+
+        return view('rental.specialized_survey_equipment', compact('equipments'));
+    }
+
     public function rentals()
     {
         $user = auth()->user();

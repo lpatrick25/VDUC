@@ -23,10 +23,21 @@
                         </div>
                         <div class="col-md-12">
                             <div class="form-group">
+                                <label for="category">Category</label>
+                                <select name="category" id="category" class="form-control">
+                                    <option value="" selected disabled>Select Category</option>
+                                    <option value="Personal Diving Gear">Personal Diving Gear</option>
+                                    <option value="Breathing Apparatus">Breathing Apparatus</option>
+                                    <option value="Dive Instruments">Dive Instruments</option>
+                                    <option value="Communication & Safety Tools">Communication & Safety Tools</option>
+                                    <option value="Specialized Survey Equipment">Specialized Survey Equipment</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
                                 <label for="equipment_image">Equipment Image</label>
-                                <input type="file" name="equipment_image" id="equipment_image" class="form-control"
-                                    accept="image/*">
-                                <div id="imagePreview" style="margin-top:10px;"></div>
+                                <input id="equipment_image_store" name="equipment_image" type="file" accept="image/*">
                             </div>
                         </div>
                     </div>
@@ -39,21 +50,3 @@
         </div>
     </div>
 </div>
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    const input = document.getElementById('equipment_image');
-    const preview = document.getElementById('imagePreview');
-    if(input) {
-        input.addEventListener('change', function(e) {
-            preview.innerHTML = '';
-            if (this.files && this.files[0]) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    preview.innerHTML = `<img src="${e.target.result}" alt="Preview" style="max-width: 100%; max-height: 200px; border:1px solid #ccc; border-radius:5px;" />`;
-                }
-                reader.readAsDataURL(this.files[0]);
-            }
-        });
-    }
-});
-</script>

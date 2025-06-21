@@ -23,8 +23,9 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 
 use App\Http\Controllers\LandingController;
-
-
+use App\Http\Controllers\Navigation\RentalClientController;
+use App\Http\Controllers\Navigation\StudentController as NavigationStudentController;
+use App\Http\Controllers\Navigation\SurveyClientController;
 
 /*
 |--------------------------------------------------------------------------
@@ -36,7 +37,8 @@ use App\Http\Controllers\LandingController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-Route::get('/', [LandingController:: class, 'index']);
+
+Route::get('/', [LandingController::class, 'index']);
 
 Route::get('/home', function () {
     return view('landing.home');
@@ -148,36 +150,63 @@ Route::prefix('employee')->group(function () {
         Route::get('/show', [ReportController::class, 'show'])->name('reports.equipmentReportShow');
         Route::get('/render', [ReportController::class, 'render'])->name('reports.equipmentReportRender');
         Route::post('/export', [ReportController::class, 'export'])->name('reports.equipmentReportExport');
-         Route::post('/print', [ReportController::class, 'export'])->name('reports.equipmentReportPrint');
+        Route::post('/print', [ReportController::class, 'export'])->name('reports.equipmentReportPrint');
     });
 
     Route::prefix('divingReports')->group(function () {
         Route::get('', [ReportController::class, 'index'])->name('reports.divingReportIndex');
-        Route::get('/show', [ReportController::class, 'show'])->name('reports.equipmentReportShow');
-        Route::get('/render', [ReportController::class, 'render'])->name('reports.equipmentReportRender');
-        Route::post('/export', [ReportController::class, 'export'])->name('reports.equipmentReportExport');
+        Route::get('/show', [ReportController::class, 'show'])->name('reports.divingReportShow');
+        Route::get('/render', [ReportController::class, 'render'])->name('reports.divingReportRender');
+        Route::post('/export', [ReportController::class, 'export'])->name('reports.divingReportExport');
     });
 
     Route::prefix('vesselReport')->group(function () {
         Route::get('', [ReportController::class, 'index'])->name('reports.vesselReportIndex');
-        Route::get('/show', [ReportController::class, 'show'])->name('reports.equipmentReportShow');
-        Route::get('/render', [ReportController::class, 'render'])->name('reports.equipmentReportRender');
-        Route::post('/export', [ReportController::class, 'export'])->name('reports.equipmentReportExport');
-        Route::post('/print', [ReportController::class, 'print'])->name('reports.equipmentReportPrint');
+        Route::get('/show', [ReportController::class, 'show'])->name('reports.vesselReportShow');
+        Route::get('/render', [ReportController::class, 'render'])->name('reports.vesselReportRender');
+        Route::post('/export', [ReportController::class, 'export'])->name('reports.vesselReportExport');
+        Route::post('/print', [ReportController::class, 'print'])->name('reports.vesselReportPrint');
     });
-
 });
 
 Route::prefix('survey_client')->group(function () {
-    Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('survey_client.dashboard');
+    Route::get('/dashboard', [SurveyClientController::class, 'dashboard'])->name('survey_client.dashboard');
+    Route::get('/services', [SurveyClientController::class, 'services'])->name('survey_client.services');
+    Route::get('/vessels', [SurveyClientController::class, 'vessels'])->name('survey_client.vessels');
+    Route::get('/vessel-schedules', [SurveyClientController::class, 'vesselSchedules'])->name('survey_client.vesselSchedules');
+    Route::get('/vessel-inspections', [SurveyClientController::class, 'vesselInspections'])->name('survey_client.vesselInspections');
 });
 
 Route::prefix('student')->group(function () {
-    Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('student.dashboard');
+    Route::get('/dashboard', [NavigationStudentController::class, 'dashboard'])->name('student.dashboard');
+    Route::get('/divingLesson', [NavigationStudentController::class, 'divingLesson'])->name('student.divingLesson');
+
+    Route::prefix('divingApplications')->group(function () {
+        Route::get('/', [NavigationStudentController::class, 'divingApplications'])->name('student.divingApplications');
+        Route::post('/{applicationID}/{action}', [ActionDivingApplicationController::class, 'handleAction'])->name('employee.handleActionApplication');
+        Route::get('/employeeDiversLogs', [NavigationStudentController::class, 'employeeDiversLogs'])->name('student.employeeDiversLogs');
+        Route::get('/{application}/divers-log', [DivingApplicationController::class, 'viewDiversLog']);
+    });
 });
 
 Route::prefix('rental_client')->group(function () {
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('rental_client.dashboard');
+
+    Route::prefix('/equipments')->group(function () {
+        Route::get('/divingGear', [RentalClientController::class, 'divingGear'])->name('rental_client.divingGear');
+        Route::get('/breathingApparatus', [RentalClientController::class, 'breathingApparatus'])->name('rental_client.breathingApparatus');
+        Route::get('/diveInstruments', [RentalClientController::class, 'diveInstruments'])->name('rental_client.diveInstruments');
+        Route::get('/communicationSafetyTools', [RentalClientController::class, 'communicationSafetyTools'])->name('rental_client.communicationSafetyTools');
+        Route::get('/specializedSurveyEquipment', [RentalClientController::class, 'specializedSurveyEquipment'])->name('rental_client.specializedSurveyEquipment');
+    });
+
+    Route::prefix('rentals')->group(function () {
+        Route::get('', [RentalClientController::class, 'rentals'])->name('rental_client.rentals');
+        Route::get('{rental}/items', [RentalActionController::class, 'rentalItems']);
+        Route::post('{rental}/return', [RentalActionController::class, 'submitReturn']);
+        Route::post('/confirm', [RentalActionController::class, 'confirmRental'])->name('rentals.confirm');
+        Route::post('{rental}/action', [RentalActionController::class, 'handle'])->name('employee.rentals.action');
+    });
 });
 
 // User Routes

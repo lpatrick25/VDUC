@@ -4,12 +4,16 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
-class Equipment extends Model
+class Equipment extends Model implements HasMedia
 {
     use HasFactory;
+    use InteractsWithMedia;
 
-    protected $fillable = ['equipment_name', 'quantity', 'image'];
+    protected $fillable = ['equipment_name', 'quantity', 'category'];
 
     public function rentalItems()
     {
@@ -51,5 +55,26 @@ class Equipment extends Model
         return $this->belongsToMany(Rental::class, 'equipment_rental_items')
             ->withPivot('quantity')
             ->withTimestamps();
+    }
+
+    public function registerMediaCollections(): void
+    {
+        $this->addMediaCollection('images')
+             ->useDisk('public_folder')            // or 's3', 'local', etc.
+             ->singleFile();                // Optional: only one image per model
+    }
+
+    public function registerMediaConversions(Media $media = null): void
+    {
+        $this->addMediaConversion('thumb')
+            ->width(368)
+            ->height(232)
+            ->sharpen(10)
+            ->nonQueued();
+
+        $this->addMediaConversion('preview')
+            ->width(800)
+            ->height(600)
+            ->nonQueued();
     }
 }

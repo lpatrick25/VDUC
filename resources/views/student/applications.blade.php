@@ -1,6 +1,5 @@
 @extends('layouts.master')
-@section('diving-active', 'active')
-@section('applications-active', 'active')
+@section('diving-application-active', 'active')
 @section('APP-CONTENT')
     <div class="iq-card">
         <div class="iq-card-header d-flex justify-content-between">
@@ -25,7 +24,6 @@
                             <th>Schedule Date</th>
                             <th>Schedule Time</th>
                             <th>Status</th>
-                            <th>Created Date</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -36,7 +34,8 @@
                                 <td>{{ $divingApplication->user->first_name }} {{ $divingApplication->user->last_name }}
                                 </td>
                                 <td>{{ $divingApplication->lesson->lesson_name }}</td>
-                                <td>{{ $divingApplication->lesson->prerequisite ? $divingApplication->lesson->prerequisite->lesson_name : 'N/A' }}</td>
+                                <td>{{ $divingApplication->lesson->prerequisite ? $divingApplication->lesson->prerequisite->lesson_name : 'N/A' }}
+                                </td>
                                 <td>{{ $divingApplication->schedule_date ? date('F j, Y', strtotime($divingApplication->schedule_date)) : 'N/A' }}
                                 </td>
                                 <td>{{ $divingApplication->schedule_time ? date('h:i A', strtotime($divingApplication->schedule_time)) : 'N/A' }}
@@ -56,42 +55,12 @@
                                         <span class="badge badge-dark">Unknown</span>
                                     @endif
                                 </td>
-                                <td>{{ date('F j, Y', strtotime($divingApplication->created_at)) }}</td>
                                 <td>
                                     <div class="d-flex justify-content-center align-items-center gap-2">
                                         @if ($divingApplication->status === 'Pending')
-                                            <button type="button" class="btn btn-sm btn-success approveBtn"
+                                            <button type="button" class="btn btn-sm btn-danger cancelBtn"
                                                 data-id="{{ $divingApplication->id }}">
-                                                <i class="ri-checkbox-circle-line"></i> Approve
-                                            </button>
-                                            <button type="button" class="btn btn-sm btn-danger rejectBtn"
-                                                data-id="{{ $divingApplication->id }}">
-                                                <i class="ri-close-circle-line"></i> Reject
-                                            </button>
-                                            <button type="button" class="btn btn-sm btn-warning deleteBtn"
-                                                data-id="{{ $divingApplication->id }}">
-                                                <i class="ri-delete-bin-line"></i> Delete
-                                            </button>
-                                        @elseif ($divingApplication->status === 'Approved')
-                                            <button type="button" class="btn btn-sm btn-primary setScheduleBtn"
-                                                data-id="{{ $divingApplication->id }}">
-                                                <i class="ri-calendar-2-line"></i> Set Ongoing
-                                            </button>
-                                        @elseif ($divingApplication->status === 'Ongoing')
-                                            <button type="button" class="btn btn-sm btn-secondary setCompleteBtn"
-                                                data-id="{{ $divingApplication->id }}">
-                                                <i class="ri-flag-2-line"></i> Set Complete
-                                            </button>
-
-                                            <button type="button" class="btn btn-sm btn-secondary setNewScheduleBtn"
-                                                data-id="{{ $divingApplication->id }}">
-                                                <i class="ri-calendar-2-line"></i> Set Schedule
-                                            </button>
-
-                                        @elseif ($divingApplication->status === 'Completed')
-                                            <button type="button" class="btn btn-sm btn-info viewDiversLogBtn"
-                                                data-id="{{ $divingApplication->id }}">
-                                                <i class="ri-book-open-line"></i> View Log
+                                                <i class="ri-delete-bin-line"></i> Cancel
                                             </button>
                                         @else
                                             <button type="button" class="btn btn-sm btn-dark" disabled>
@@ -108,79 +77,89 @@
         </div>
     </div>
 
-    @include('modals.add_diving_application')
-    @include('modals.action_diving')
+    <!-- Add Application Modal -->
+    <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <form id="addModalForm">
+                    <input type="hidden" class="form-control" id="user_id" name="user_id"
+                        value="{{ auth()->user()->id }}">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="addModalLabel">Add New Diving Application</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="lesson_id">Lesson</label>
+                            <select class="form-control" id="lesson_id" name="lesson_id" required>
+                                <option value="" disabled selected>Select Lesson</option>
+                                @foreach ($lessons as $lesson)
+                                    <option value="{{ $lesson->id }}">{{ $lesson->lesson_name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Add Application</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Action Button Modal -->
+    <div class="modal fade" id="actionModal" tabindex="-1" role="dialog" aria-labelledby="actionModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title font-weight-bold text-white" id="actionModalLabel">Action Confirmation</h5>
+                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form id="actionModalForm">
+                    <div class="modal-body">
+                        <div id="actionModalMessage" class="text-center font-weight-bold mb-3"></div>
+                    </div>
+                    <div class="modal-footer justify-content-center">
+                        <button type="submit" class="btn btn-primary btn-sm">Confirm</button>
+                        <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
     @include('modals.view_logs_application')
 @endsection
 @section('APP-SCRIPT')
     <script>
         $(document).ready(function() {
 
-            $(document).on('click', '.approveBtn, .rejectBtn, .setScheduleBtn, .setCompleteBtn', function() {
+            $(document).on('click', '.cancelBtn', function() {
                 const actionModal = $('#actionModal');
-                const actionType = $(this).hasClass('approveBtn') ? 'approve' :
-                    $(this).hasClass('rejectBtn') ? 'reject' :
-                    $(this).hasClass('setScheduleBtn') ? 'setOngoing' : 'setCompleted';
+                const actionType = 'cancel';
                 const id = $(this).data('id');
-                const message = actionType === 'approve' ?
-                    // '<i class="ri-alert-line" style="font-size: 3rem; color: #28a745;"></i>' +
-                    // '<p class="mt-3 font-weight-bold">Are you sure you want to approve this application?</p>' :
-                    '' :
-                    actionType === 'reject' ?
+                const message =
                     '<i class="ri-alert-line" style="font-size: 3rem; color: #dc3545;"></i>' +
-                    '<p class="mt-3 font-weight-bold">Are you sure you want to reject this application?</p>' :
-                    actionType === 'setOngoing' ?
-                    '<i class="ri-alert-line" style="font-size: 3rem; color: #007bff;"></i>' +
-                    '<p class="mt-3 font-weight-bold">Are you sure you want to mark this application as Ongoing?</p>' :
-                    '<i class="ri-alert-line" style="font-size: 3rem; color: #6c757d;"></i>' +
-                    '<p class="mt-3 font-weight-bold">Are you sure you want to mark this application as Completed?</p>';
+                    '<p class="mt-3 font-weight-bold">Are you sure you want to cancel this application?</p>';
 
                 $('#actionModalMessage').html(message);
-                $('#scheduleFields').toggleClass('d-none', actionType !== 'approve');
-
-                // Inside your click handler after determining actionType:
-                if (actionType === 'approve') {
-                    $('#scheduleFields').removeClass('d-none');
-                    $('#schedule_date').prop('disabled', false);
-                    $('#schedule_time').prop('disabled', false);
-                } else {
-                    $('#scheduleFields').addClass('d-none');
-                    $('#schedule_date').prop('disabled', true);
-                    $('#schedule_time').prop('disabled', true);
-                }
 
                 const actionModalMessage = $('#actionModal');
                 setModalMessage(actionModalMessage);
 
                 actionModal.off('submit').on('submit', '#actionModalForm', function(e) {
                     e.preventDefault();
-                    const scheduleDate = $('#schedule_date').val();
-                    const scheduleTime = $('#schedule_time').val();
-
-                    if (actionType === 'approve') {
-                        // Enable the fields for validation
-                        $('#schedule_date').prop('disabled', false);
-                        $('#schedule_time').prop('disabled', false);
-
-                        if (!scheduleDate || !scheduleTime) {
-                            alert('Schedule Date and Time are required.');
-                            return;
-                        }
-                    } else {
-                        // Disable the fields if not approving
-                        $('#schedule_date').prop('disabled', true);
-                        $('#schedule_time').prop('disabled', true);
-                    }
-
-                    const data = {
-                        schedule_date: scheduleDate,
-                        schedule_time: scheduleTime
-                    };
 
                     $.ajax({
-                        url: `/employee/diving/applications/${id}/${actionType}`,
+                        url: `/student/divingApplications/${id}/${actionType}`,
                         method: 'POST',
-                        data: actionType === 'approve' ? data : {},
+                        data: {},
                         success: function(response) {
                             if (response.success) {
                                 actionModal.modal('hide');
@@ -232,37 +211,6 @@
                                 '<tr><td colspan="6" class="text-muted text-center">No diver\'s logs available.</td></tr>'
                             );
                         }
-                    }
-                });
-            });
-
-            $('.deleteBtn').on('click', function() {
-                const id = $(this).data('id');
-                const deleteModal = $('#deleteModal');
-                deleteModal.find('.confirmDelete').data('id', id);
-                setModalMessage(deleteModal);
-                deleteModal.modal('show');
-            });
-
-            $('.confirmDelete').on('click', function() {
-                const id = $(this).data('id');
-                $.ajax({
-                    url: `/divingApplications/${id}`,
-                    method: 'DELETE',
-                    dataType: 'JSON',
-                    success: function(response) {
-                        if (response.success) {
-                            $('#deleteModal').modal('hide');
-                            showContainerMessage(response.message, 'success');
-                            setTimeout(() => location.reload(), 1000);
-                        } else {
-                            showModalMessage(response.message, 'error');
-                        }
-                    },
-                    error: function(err) {
-                        console.error('Error deleting user:', err);
-                        showModalMessage('An unexpected error occurred. Please try again.',
-                            'error');
                     }
                 });
             });
