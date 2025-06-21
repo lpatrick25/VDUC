@@ -24,8 +24,9 @@ use App\Http\Controllers\AuthController;
 
 use App\Http\Controllers\LandingController;
 use App\Http\Controllers\Navigation\RentalClientController;
-use App\Http\Controllers\Navigation\StudentController as NavigationStudentController;
 use App\Http\Controllers\Navigation\SurveyClientController;
+use App\Http\Controllers\Navigation\StudentController as NavigationStudentController;
+use App\Http\Controllers\ProfileController;
 
 /*
 |--------------------------------------------------------------------------
@@ -69,6 +70,10 @@ Route::get('/operation_lesson', function () {
 Route::get('/contact', function () {
     return view('landing.contact');
 })->name('contact');
+
+Route::get('/profile', function () {
+    return view('profile.basic');
+})->middleware('auth')->name('profile.show');
 
 // Route::get('/vessel_rep', function () {
 //     return view('reports\equipments.inspection_report');
@@ -232,3 +237,8 @@ Route::resource('divers-logs', DiversLogController::class);
 
 // Diving Applications Routes
 Route::resource('diving-applications', DivingApplicationController::class);
+
+// // Profile Controller
+// Route::get('/profile', [ProfileController::class, 'show'])->name('profile.show');
+// Route::put('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
+// Route::put('/profile/password', [ProfileController::class, 'updatePassword'])->name('profile.updatePassword');
