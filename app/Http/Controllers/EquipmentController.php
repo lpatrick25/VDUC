@@ -24,6 +24,7 @@ class EquipmentController extends Controller
         $validated = $request->validate([
             'equipment_name' => 'required|string|max:255',
             'quantity'       => 'required|integer|min:1',
+            'category'       => 'nullable|string|max:255', // Assuming category is optional
         ]);
 
         try {
@@ -54,9 +55,15 @@ class EquipmentController extends Controller
             $validated = $request->validate([
                 'equipment_name' => 'sometimes|required|string|max:255',
                 'quantity'       => 'sometimes|required|integer|min:1',
+                'category'       => 'sometimes|nullable|string|max:255', // Assuming category is optional
             ]);
 
             $equipment->update($validated);
+
+            if ($request->hasFile('equipment_image')) {
+                $equipment->addMediaFromRequest('equipment_image')->toMediaCollection('images');
+            }
+
             return $this->success($equipment, 'Equipment updated successfully');
         } catch (\Exception $e) {
             Log::error("Failed to update equipment ID {$id}: " . $e->getMessage());

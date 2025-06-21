@@ -30,6 +30,15 @@ class DivingApplicationController extends Controller
                     $application->status = 'Approved';
                     break;
 
+                case 'cancel':
+                    if ($application->status !== 'Pending') {
+                        return $this->failed(null, 'Only pending applications can be cancelled', 400);
+                    }
+
+                    $application->delete();
+                    return $this->success(null, 'Application cancelled (deleted) successfully.');
+                    break;
+
                 case 'reject':
                     if ($application->status !== 'Pending') {
                         return $this->failed(null, 'Only pending applications can be rejected', 400);
@@ -145,6 +154,26 @@ class DivingApplicationController extends Controller
             }
 
             $application->status = 'Rejected';
+            $application->save();
+
+            return $this->success($application, 'Application rejected successfully.');
+        } catch (\Exception $e) {
+            Log::error("Failed to reject application ID {$id}: " . $e->getMessage());
+            return $this->failed(null, 'Failed to reject application', 500);
+        }
+    }
+
+    // Reject the application
+    public function cancel($id)
+    {
+        try {
+            $application = DivingApplication::findOrFail($id);
+
+            if ($application->status !== 'Pending') {
+                return $this->failed(null, 'Only pending applications can be cancelled', 400);
+            }
+
+            $application->status = 'Cancelled';
             $application->save();
 
             return $this->success($application, 'Application rejected successfully.');

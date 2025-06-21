@@ -1,16 +1,10 @@
 @extends('layouts.master')
-@section('equipments-active', 'active')
-@section('rental-active', 'active')
+@section('rentals-active', 'active')
 @section('APP-CONTENT')
     <div class="iq-card">
         <div class="iq-card-header d-flex justify-content-between">
             <div class="iq-header-title">
                 <h4 class="card-title">Rental List</h4>
-            </div>
-            <div class="iq-card-header-toolbar d-flex align-items-center">
-                <button type="button" id="addBtn" class="btn btn-primary" data-toggle="modal" data-target="#addRentalModal">
-                    Add New Rental
-                </button>
             </div>
         </div>
         <div class="iq-card-body">
@@ -20,7 +14,6 @@
                     <thead>
                         <tr>
                             <th>#</th>
-                            <th>User</th>
                             <th>Pick-Up Date</th>
                             <th>Return Date</th>
                             <th>Items Borrowed</th>
@@ -32,7 +25,6 @@
                         @foreach ($rentals as $rental)
                             <tr @if ($rental->status === 'Overdue') class="table-danger" @endif>
                                 <td>{{ $rental->id }}</td>
-                                <td>{{ $rental->user->full_name ?? 'N/A' }}</td>
                                 <td>{{ date('F j, Y', strtotime($rental->pick_up_date)) }}</td>
                                 <td>{{ date('F j, Y', strtotime($rental->return_date)) }}</td>
                                 <td>

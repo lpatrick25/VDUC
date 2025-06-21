@@ -26,6 +26,9 @@ class VesselInspectionDetailController extends Controller
             'title'                => 'required|string|max:50',
             'description'          => 'required|string',
             'remarks'              => 'nullable|string',
+            'marine_growth'        => 'nullable|string',
+            'corrosion'            => 'nullable|string',
+            'paint_coating'        => 'nullable|string',
         ]);
 
         try {
@@ -58,6 +61,9 @@ class VesselInspectionDetailController extends Controller
                 'title'                => 'sometimes|required|string|max:50',
                 'description'          => 'sometimes|required|string',
                 'remarks'              => 'nullable|string',
+                'marine_growth'        => 'nullable|string',
+                'corrosion'            => 'nullable|string',
+                'paint_coating'        => 'nullable|string',
             ]);
 
             $detail->update($validated);

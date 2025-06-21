@@ -21,11 +21,20 @@
                             <textarea class="form-control" id="description" name="description" rows="3"></textarea>
                         </div>
                         <div class="col-md-12">
+                            <label for="prerequisite" class="form-label fw-bold">Prerequisite Lesson</label>
+                            <select class="form-control" id="prerequisite_update" name="prerequisite">
+                                <option value="">None</option>
+                                @foreach ($divingLessons as $lesson)
+                                    <option value="{{ $lesson->id }}">{{ $lesson->lesson_name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="col-md-12">
                             <label for="duration_minutes" class="form-label fw-bold">Duration (Minutes)</label>
                             <input type="number" class="form-control" id="duration_minutes" name="duration_minutes" required>
                         </div>
                         <div class="col-md-12">
-                            <label for="price" class="form-label fw-bold">Price</label>
+                            <label for="price" class="form-label fw-bold">Rate</label>
                             <input type="number" step="0.01" class="form-control" id="price" name="price" required>
                         </div>
                     </div>

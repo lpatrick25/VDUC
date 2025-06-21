@@ -66,4 +66,21 @@ class ReportController extends Controller
             'type' => $type,
         ]);
     }
+
+   public function print(Request $request)
+{
+    $type = $request->input('type');
+    $report = ReportFactory::make($type);
+
+    if (!$report) {
+        return redirect()->back()->withErrors('Invalid report type.');
+    }
+
+    $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('reports.vessels.vessel-inspection-reports', [
+        'data' => $report->getData(),
+        'title' => $report->getTitle()
+    ]);
+
+    return $pdf->stream("{$type}_report.pdf", ['Attachment' => false]);
+}
 }

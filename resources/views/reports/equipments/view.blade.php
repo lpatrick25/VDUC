@@ -12,4 +12,7 @@
         <input type="hidden" name="type" value="{{ $type }}">
         <button type="submit">Export as PDF</button>
     </form>
+
+
+
 @endsection

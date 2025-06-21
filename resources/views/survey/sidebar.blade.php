@@ -6,17 +6,50 @@
                 </i><span>Dashboard</span>
             </a>
         </li>
-        <li class="active">
-            <a href="#menu-level" class="iq-waves-effect collapsed" data-toggle="collapse" aria-expanded="false"><i
-                    class="ri-record-circle-line iq-arrow-left"></i><span>Menu
-                    Level</span><i class="ri-arrow-right-s-line iq-arrow-right"></i></a>
-            <ul id="menu-level" class="iq-submenu collapse" data-parent="#iq-sidebar-toggle">
-                <li class="active"><a href="#"><i class="ri-record-circle-line"></i>Menu 1</a></li>
-                <li><a href="#"><i class="ri-record-circle-line"></i>Menu 2</a></li>
-                <li><a href="#"><i class="ri-record-circle-line"></i>Menu 3</a></li>
-                <li><a href="#"><i class="ri-record-circle-line"></i>Menu 4</a></li>
-            </ul>
+
+        <li class="@yield('services-active')">
+            <a href="{{ route('survey_client.services') }}" class="iq-waves-effect collapsed">
+                <i class="ri-record-circle-line iq-arrow-left"></i>
+                <span>Services</span>
+            </a>
         </li>
+
+        <li class="@yield('vessel-active')">
+            <a href="{{ route('survey_client.vessels') }}" class="iq-waves-effect collapsed">
+                <i class="ri-record-circle-line iq-arrow-left"></i>
+                <span>Vessels</span>
+            </a>
+        </li>
+
+        <li class="@yield('schedule-active')">
+            <a href="{{ route('survey_client.vesselSchedules') }}" class="iq-waves-effect collapsed">
+                <i class="ri-record-circle-line iq-arrow-left"></i>
+                <span>Vessel Schedule</span>
+            </a>
+        </li>
+
+        <li class="@yield('inspection-active')">
+            <a href="{{ route('survey_client.vesselInspections') }}" class="iq-waves-effect collapsed">
+                <i class="ri-record-circle-line iq-arrow-left"></i>
+                <span>Vessel Inspection</span>
+            </a>
+        </li>
+
+        <li>
+            <a href="" class="iq-waves-effect collapsed">
+                <i class="ri-record-circle-line iq-arrow-left"></i>
+                <span>Terms of Services</span>
+            </a>
+        </li>
+
+        <li>
+            <a href="" class="iq-waves-effect collapsed">
+                <i class="ri-record-circle-line iq-arrow-left"></i>
+                <span>Contact VDUCI</span>
+            </a>
+        </li>
+
+
     </ul>
 </nav>
 <div class="p-3"></div>

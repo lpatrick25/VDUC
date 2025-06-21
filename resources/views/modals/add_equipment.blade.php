@@ -21,6 +21,25 @@
                             <label for="quantity" class="form-label fw-bold">Quantity</label>
                             <input type="number" class="form-control" id="quantity" name="quantity" required>
                         </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="category">Category</label>
+                                <select name="category" id="category" class="form-control">
+                                    <option value="" selected disabled>Select Category</option>
+                                    <option value="Personal Diving Gear">Personal Diving Gear</option>
+                                    <option value="Breathing Apparatus">Breathing Apparatus</option>
+                                    <option value="Dive Instruments">Dive Instruments</option>
+                                    <option value="Communication & Safety Tools">Communication & Safety Tools</option>
+                                    <option value="Specialized Survey Equipment">Specialized Survey Equipment</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="equipment_image">Equipment Image</label>
+                                <input id="equipment_image_store" name="equipment_image" type="file" accept="image/*">
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer bg-light">

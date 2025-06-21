@@ -16,6 +16,7 @@
                                 <th>Depth (m)</th>
                                 <th>Bottom Time (mins)</th>
                                 <th>Date</th>
+                                <th>Action</th>
                             </tr>
                         </thead>
                         <tbody id="diversLogsTable">

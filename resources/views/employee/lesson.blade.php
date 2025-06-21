@@ -21,6 +21,7 @@
                             <th>#</th>
                             <th>Lesson Name</th>
                             <th>Description</th>
+                            <th>Prerequisite</th>
                             <th>Duration</th>
                             <th>Rate</th>
                             <th>Students</th>
@@ -34,6 +35,7 @@
                                 <td>{{ $divingLesson->id }}</td>
                                 <td>{{ ucwords($divingLesson->lesson_name) }}</td>
                                 <td>{{ $divingLesson->description }}</td>
+                                <td>{{ $divingLesson->prerequisiteLesson->lesson_name ?? 'None' }}</td>
                                 <td>{{ $divingLesson->duration_minutes }}</td>
                                 <td>&#8369; {{ number_format($divingLesson->price, 2) }}</td>
                                 <td>
@@ -74,6 +76,16 @@
     <script>
         $(document).ready(function() {
             let divingLessonID = null;
+
+            $('#prerequisite_store').select2({
+                placeholder: "Select prerequisite lesson",
+                width: '100%'
+            });
+
+            $('#prerequisite_update').select2({
+                placeholder: "Select prerequisite lesson",
+                width: '100%'
+            });
 
             $('.deleteBtn').on('click', function() {
                 const id = $(this).data('id');
@@ -125,6 +137,8 @@
                         $('#editModal').find('input[name="duration_minutes"]').val(data
                             .duration_minutes);
                         $('#editModal').find('input[name="price"]').val(data.price);
+                        $('#editModal').find('select[name="prerequisite"]').val(data
+                            .prerequisite_id || '').trigger('change');
                         $('#editModal').modal('show');
                     },
                     error: function(err) {

@@ -54,10 +54,20 @@
     </div>
     <!-- loader END -->
     <!-- Sign in Start -->
+
+
     <section class="sign-up-page d-flex align-items-center min-vh-100 bg-light">
+
+
         <div class="container">
+
             <div class="row justify-content-center shadow rounded bg-white overflow-hidden">
+
                 <div class="col-md-6 p-5">
+                    <a href="{{ url('/') }}" class="back-button" aria-label="Back to homepage">
+                        <i class="icon ion-arrow-left-c"></i>
+                    </a>
+
                     <div class="text-center mb-4">
                         <img src="images/logo1.png" alt="logo" class="mb-3" style="height: 50px;">
                         <h2 class="mb-1">Welcome Back</h2>
@@ -81,7 +91,8 @@
                             <label class="form-check-label" for="rememberMe">Remember me</label>
                         </div>
                         <button class="btn btn-primary w-100 mb-3" type="submit">Sign In</button>
-                        <p class="text-center text-muted">Don't have an account? <a href="{{ route('signup') }}">Sign up</a></p>
+                        <p class="text-center text-muted">Don't have an account? <a href="{{ route('signup') }}">Sign
+                                up</a></p>
                     </form>
                 </div>
                 <div class="col-md-6 d-none d-md-block bg-primary text-white p-5">
