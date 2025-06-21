@@ -10,7 +10,7 @@ class RentalFactory extends Factory
     public function definition()
     {
         return [
-            'user_id' => User::factory(),
+            'user_id' => User::factory()->state(['role' => 'Rental Client']),
             'pick_up_date' => $this->faker->date(),
             'return_date' => $this->faker->date(),
             'penalty' => $this->faker->randomFloat(2, 0, 500),

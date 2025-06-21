@@ -12,6 +12,7 @@ use App\Models\User;
 use App\Models\Vessel;
 use App\Models\VesselService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class EmployeeController extends Controller
 {
@@ -193,7 +194,7 @@ class EmployeeController extends Controller
     });
 
     // Debug: Log titles to verify
-    \Log::info('Inspection Detail Titles: ' . json_encode($vesselInspectionDetails->pluck('title')->toArray()));
+    Log::info('Inspection Detail Titles: ' . json_encode($vesselInspectionDetails->pluck('title')->toArray()));
 
     $inspectionReport = (object) [
         'schedule_date' => $vesselSchedule->schedules->first()->schedule_date,

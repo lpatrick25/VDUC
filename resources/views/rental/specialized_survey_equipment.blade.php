@@ -1,10 +1,15 @@
 @extends('layouts.master')
-@section('rentals-active', 'active')
+@section('equipments-active', 'active')
+@section('specializedSurveyEquipment-active', 'active')
 @section('APP-CONTENT')
     <div class="iq-card">
         <div class="iq-card-header d-flex justify-content-between">
             <div class="iq-header-title">
-                <h4 class="card-title">Rental List</h4>
+                <h4 class="card-title">Personal Diving Gear List</h4>
+            </div>
+            <div class="iq-card-header-toolbar d-flex align-items-center">
+                <button type="button" id="addBtn" class="btn btn-primary" data-toggle="modal" data-target="#addRentalModal"
+                    class="btn btn-primary">Add New</button>
             </div>
         </div>
         <div class="iq-card-body">
@@ -14,48 +19,53 @@
                     <thead>
                         <tr>
                             <th>#</th>
-                            <th>Pick-Up Date</th>
-                            <th>Return Date</th>
-                            <th>Items Borrowed</th>
+                            <th>Image</th>
+                            <th>Category</th>
+                            <th>Quantity</th>
+                            <th>Remaining</th>
+                            <th>Rented</th>
                             <th>Status</th>
-                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($rentals as $rental)
-                            <tr @if ($rental->status === 'Overdue') class="table-danger" @endif>
-                                <td>{{ $rental->id }}</td>
-                                <td>{{ date('F j, Y', strtotime($rental->pick_up_date)) }}</td>
-                                <td>{{ date('F j, Y', strtotime($rental->return_date)) }}</td>
+                        @foreach ($equipments as $equipment)
+                            <tr>
+                                <td>{{ $equipment->id }}</td>
                                 <td>
-                                    @foreach ($rental->equipment as $equipment)
-                                        <span class="badge badge-info">{{ $equipment->equipment_name }} (Qty:
-                                            {{ $equipment->pivot->quantity }})</span>
-                                    @endforeach
-                                </td>
-                                <td>
-                                    @if ($rental->status === 'Returned')
-                                        <span class="badge badge-success">Returned</span>
-                                    @elseif ($rental->status === 'Overdue')
-                                        <span class="badge badge-danger">Overdue</span>
-                                    @elseif ($rental->status === 'Pending')
-                                        <span class="badge badge-warning">Pending</span>
-                                    @elseif ($rental->status === 'Confirmed')
-                                        <span class="badge badge-primary">Confirmed</span>
-                                    @elseif ($rental->status === 'Released')
-                                        <span class="badge badge-info">Released</span>
-                                    @elseif ($rental->status === 'Cancelled')
-                                        <span class="badge badge-dark">Cancelled</span>
+                                    @php
+                                        $thumbUrl = $equipment->getFirstMediaUrl('images', 'thumb');
+                                    @endphp
+
+                                    @if (!empty($thumbUrl))
+                                        <img src="{{ $thumbUrl }}" alt="{{ $equipment->equipment_name }}"
+                                            class="img-fluid" style="max-width: 100px;">
                                     @else
-                                        <span class="badge badge-secondary">Unknown</span>
+                                        <span class="badge badge-secondary">No Image</span>
                                     @endif
                                 </td>
+                                <td>{{ ucwords($equipment->equipment_name) }}</td>
+                                <td>{{ $equipment->quantity }}</td>
                                 <td>
-                                    @if ($rental->status === 'Pending')
-                                        <button type="button" class="btn btn-danger cancelBtn"
-                                            data-id="{{ $rental->id }}" title="Cancel">
-                                            <i class="ri-close-line"></i>
-                                        </button>
+                                    @if ($equipment->available_quantity <= 0)
+                                        <span class="badge badge-danger">Out of Stock</span>
+                                    @elseif($equipment->available_quantity < 3)
+                                        <span class="badge badge-warning">Low Stock
+                                            ({{ $equipment->available_quantity }})
+                                        </span>
+                                    @else
+                                        <span class="badge badge-success">{{ $equipment->available_quantity }}
+                                            Available</span>
+                                    @endif
+                                </td>
+                                <td><span class="badge badge-primary">{{ $equipment->rented_quantity ?? 0 }} Rented</span>
+                                </td>
+                                <td>
+                                    @if ($equipment->status === 'Available')
+                                        <span class="badge badge-success">Available</span>
+                                    @elseif ($equipment->status === 'inactive')
+                                        <span class="badge badge-secondary">Not Available</span>
+                                    @else
+                                        <span class="badge badge-warning">Unknown</span>
                                     @endif
                                 </td>
                             </tr>
@@ -65,11 +75,13 @@
             </div>
         </div>
     </div>
+
     {{-- Add Rental Modal --}}
     <div class="modal fade" id="addRentalModal" tabindex="-1" role="dialog" aria-labelledby="addRentalModalLabel"
         aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document"> {{-- Widen the modal for better UX --}}
             <form id="addRentalForm">
+                <input type="hidden" class="form-control" id="user_id" name="user_id" value="{{ auth()->user()->id }}">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="addRentalModalLabel">Add New Rental</h5>
@@ -79,13 +91,6 @@
                     </div>
 
                     <div class="modal-body">
-                        {{-- User --}}
-                        <div class="form-group" style="display: none;">
-                            <label for="user_id">User</label>
-                            <input type="text" class="form-control" id="user_id" name="user_id"
-                                value="{{ $user->id }}" required>
-                        </div>
-
                         {{-- Dates --}}
                         <div class="form-row">
                             <div class="form-group col-md-6">
@@ -102,7 +107,7 @@
                         <div class="form-group">
                             <label for="equipment">Select Equipment</label>
                             <select class="form-control" id="equipment_select" multiple>
-                                @foreach ($allEquipment as $item)
+                                @foreach ($equipments as $item)
                                     <option value="{{ $item->id }}" data-available="{{ $item->quantity }}">
                                         {{ $item->equipment_name }} (Available: {{ $item->quantity }})
                                     </option>
@@ -113,6 +118,12 @@
                         {{-- Dynamic Equipment Quantity Inputs --}}
                         <div id="selectedEquipmentContainer">
                             {{-- JS will populate quantity fields here based on selected equipment --}}
+                        </div>
+
+                        {{-- Remarks --}}
+                        <div class="form-group mt-3">
+                            <label for="remarks">Remarks</label>
+                            <textarea class="form-control" id="remarks" name="remarks" rows="3"></textarea>
                         </div>
                     </div>
 
@@ -161,24 +172,6 @@
                         </div>
                     `);
                 });
-            });
-
-            $('.cancelBtn').on('click', function() {
-                const rentalId = $(this).data('id');
-                const action = 'cancel';
-
-                $.post(`/employee/rentals/${rentalId}/action`, {
-                        action: action,
-                    })
-                    .done(function(response) {
-                        showContainerMessage(response.message, 'success');
-                        setTimeout(() => location.reload(), 1000);
-                    })
-                    .fail(function(xhr) {
-                        showModalMessage(response.message ||
-                            'An error occurred.',
-                            'error');
-                    });
             });
 
             $('#addRentalForm').submit(function(e) {

@@ -8,7 +8,8 @@
                 <h4 class="card-title">Equipment List</h4>
             </div>
             <div class="iq-card-header-toolbar d-flex align-items-center">
-                <button type="button" id="addBtn" class="btn btn-primary" data-toggle="modal" data-target="#addModal" class="btn btn-primary">Add New</button>
+                <button type="button" id="addBtn" class="btn btn-primary" data-toggle="modal" data-target="#addModal"
+                    class="btn btn-primary">Add New</button>
             </div>
         </div>
         <div class="iq-card-body">
@@ -18,13 +19,14 @@
                     <thead>
                         <tr>
                             <th>#</th>
+                            <th>Image</th>
                             <th>Equipment Name</th>
+                            <th>Category</th>
                             <th>Quantity</th>
                             <th>Remaining</th>
                             <th>Rented</th>
                             <th>Status</th>
                             <th>Created Date</th>
-                            <th>Image</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -32,7 +34,20 @@
                         @foreach ($equipments as $equipment)
                             <tr>
                                 <td>{{ $equipment->id }}</td>
+                                <td>
+                                    @php
+                                        $thumbUrl = $equipment->getFirstMediaUrl('images', 'thumb');
+                                    @endphp
+
+                                    @if (!empty($thumbUrl))
+                                        <img src="{{ $thumbUrl }}" alt="{{ $equipment->equipment_name }}"
+                                            class="img-fluid" style="max-width: 100px;">
+                                    @else
+                                        <span class="badge badge-secondary">No Image</span>
+                                    @endif
+                                </td>
                                 <td>{{ ucwords($equipment->equipment_name) }}</td>
+                                <td>{{ ucwords($equipment->category) }}</td>
                                 <td>{{ $equipment->quantity }}</td>
                                 <td>
                                     @if ($equipment->available_quantity <= 0)
@@ -59,14 +74,6 @@
                                 </td>
                                 <td>{{ date('F j, Y', strtotime($equipment->created_at)) }}</td>
                                 <td>
-                                    @if ($equipment->image)
-                                        <img src="{{ asset('storage/' . $equipment->image) }}" alt="Equipment Image"
-                                            style="max-width: 60px; max-height: 60px; border-radius: 5px; border: 1px solid #ccc;" />
-                                    @else
-                                        <span class="text-muted">No Image</span>
-                                    @endif
-                                </td>
-                                <td>
                                     <button type="button" class="btn btn-primary editBtn" data-id="{{ $equipment->id }}"
                                         data-toggle="modal" data-target="#editModal">Edit</button>
                                     <button type="button" class="btn btn-danger deleteBtn" data-id="{{ $equipment->id }}"
@@ -87,6 +94,38 @@
     <script>
         $(document).ready(function() {
             let equipmentID = null;
+
+            $("#equipment_image_store").fileinput({
+                theme: "fa", // Use FontAwesome icons (optional)
+                showUpload: false, // Hide the 'Upload' button
+                showCaption: false, // Hide file caption
+                browseClass: "btn btn-primary", // Bootstrap button styling
+                fileActionSettings: {
+                    showRemove: true,
+                    showZoom: true,
+                    showUpload: false,
+                },
+                allowedFileExtensions: ["jpg", "jpeg", "png", "gif"], // Accept images only
+                maxFileSize: 2048, // Max 2 MB per image (adjust as needed)
+                maxFileCount: 5, // Allow up to 5 files
+                previewFileType: "image",
+            });
+
+            $("#equipment_image_update").fileinput({
+                theme: "fa", // Use FontAwesome icons (optional)
+                showUpload: false, // Hide the 'Upload' button
+                showCaption: false, // Hide file caption
+                browseClass: "btn btn-primary", // Bootstrap button styling
+                fileActionSettings: {
+                    showRemove: true,
+                    showZoom: true,
+                    showUpload: false,
+                },
+                allowedFileExtensions: ["jpg", "jpeg", "png", "gif"], // Accept images only
+                maxFileSize: 2048, // Max 2 MB per image (adjust as needed)
+                maxFileCount: 5, // Allow up to 5 files
+                previewFileType: "image",
+            });
 
             $('.deleteBtn').on('click', function() {
                 const id = $(this).data('id');
@@ -129,13 +168,19 @@
                     success: function(response) {
                         const data = response.data;
                         equipmentID = data.id;
-                        $('#editModal').find('input[name="equipment_name"]').val(data.equipment_name);
+                        $('#editModal').find('input[name="equipment_name"]').val(data
+                            .equipment_name);
                         $('#editModal').find('input[name="quantity"]').val(data.quantity);
+                        $('#editModal').find('select[name="category"]').val(data.category ||
+                            '');
                         // Show current image in preview if exists
                         if (data.image) {
-                            $('#editImagePreview').html(`<img src='${window.location.origin}/storage/${data.image}' style='max-width:100%;max-height:200px;border:1px solid #ccc;border-radius:5px;' />`);
+                            $('#editImagePreview').html(
+                                `<img src='${window.location.origin}/storage/${data.image}' style='max-width:100%;max-height:200px;border:1px solid #ccc;border-radius:5px;' />`
+                            );
                         } else {
-                            $('#editImagePreview').html('<span class="text-muted">No Image</span>');
+                            $('#editImagePreview').html(
+                                '<span class="text-muted">No Image</span>');
                         }
                         $('#editModal').modal('show');
                     },
@@ -180,7 +225,8 @@
                             showModalMessage(err.responseText, 'error');
                         } else {
                             console.error('Error adding equipment:', err);
-                            showModalMessage('An unexpected error occurred. Please try again.', 'error');
+                            showModalMessage('An unexpected error occurred. Please try again.',
+                                'error');
                         }
                     }
                 });
@@ -198,7 +244,9 @@
                     processData: false,
                     contentType: false,
                     dataType: 'JSON',
-                    headers: { 'X-HTTP-Method-Override': 'PUT' },
+                    headers: {
+                        'X-HTTP-Method-Override': 'PUT'
+                    },
                     success: function(response) {
                         if (response.success) {
                             $('#editModal').modal('hide');
@@ -222,7 +270,8 @@
                             showModalMessage(err.responseText, 'error');
                         } else {
                             console.error('Error updating equipment:', err);
-                            showModalMessage('An unexpected error occurred. Please try again.', 'error');
+                            showModalMessage('An unexpected error occurred. Please try again.',
+                                'error');
                         }
                     }
                 });

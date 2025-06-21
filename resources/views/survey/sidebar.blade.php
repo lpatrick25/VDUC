@@ -7,29 +7,43 @@
             </a>
         </li>
 
-                 <li>
-            <a href="" class="iq-waves-effect collapsed" data-toggle="collapse" aria-expanded="false">
+        <li class="@yield('services-active')">
+            <a href="{{ route('survey_client.services') }}" class="iq-waves-effect collapsed">
                 <i class="ri-record-circle-line iq-arrow-left"></i>
                 <span>Services</span>
             </a>
         </li>
 
-         <li>
-            <a href="" class="iq-waves-effect collapsed" data-toggle="collapse" aria-expanded="false">
+        <li class="@yield('vessel-active')">
+            <a href="{{ route('survey_client.vessels') }}" class="iq-waves-effect collapsed">
                 <i class="ri-record-circle-line iq-arrow-left"></i>
-                <span>Vessel Information</span>
+                <span>Vessels</span>
             </a>
         </li>
 
-         <li>
-            <a href="" class="iq-waves-effect collapsed" data-toggle="collapse" aria-expanded="false">
+        <li class="@yield('schedule-active')">
+            <a href="{{ route('survey_client.vesselSchedules') }}" class="iq-waves-effect collapsed">
+                <i class="ri-record-circle-line iq-arrow-left"></i>
+                <span>Vessel Schedule</span>
+            </a>
+        </li>
+
+        <li class="@yield('inspection-active')">
+            <a href="{{ route('survey_client.vesselInspections') }}" class="iq-waves-effect collapsed">
+                <i class="ri-record-circle-line iq-arrow-left"></i>
+                <span>Vessel Inspection</span>
+            </a>
+        </li>
+
+        <li>
+            <a href="" class="iq-waves-effect collapsed">
                 <i class="ri-record-circle-line iq-arrow-left"></i>
                 <span>Terms of Services</span>
             </a>
         </li>
 
-          <li>
-            <a href="" class="iq-waves-effect collapsed" data-toggle="collapse" aria-expanded="false">
+        <li>
+            <a href="" class="iq-waves-effect collapsed">
                 <i class="ri-record-circle-line iq-arrow-left"></i>
                 <span>Contact VDUCI</span>
             </a>
