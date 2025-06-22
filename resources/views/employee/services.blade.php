@@ -33,7 +33,7 @@
                                 <td>{{ $service->id }}</td>
                                 <td>{{ ucfirst($service->service_name) }}</td>
                                 <td>{{ $service->description }}</td>
-                                <td>${{ number_format($service->service_charge, 2) }}</td>
+                                <td>₱ {{ number_format($service->service_charge, 2) }}</td>
                                 <td>
                                     <span class="badge badge-primary">
                                         {{ $service->schedules_count }} Vessels

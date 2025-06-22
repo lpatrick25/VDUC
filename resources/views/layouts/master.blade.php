@@ -6,7 +6,7 @@
     <meta charset="utf-8">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>@yield('APP-NAME') - {{ env('APP_NAME') }}</title>
+    <title>@yield('APP-NAME') VDUC {{ env('APP_NAME') }}</title>
     <!-- Favicon -->
     <link rel="shortcut icon" href="{{ asset('images/logo1.png') }}" />
     <!-- Bootstrap CSS -->
@@ -19,8 +19,21 @@
     <link rel="stylesheet" href="{{ asset('css/responsive.css') }}">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css">
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.5.3/css/fileinput.min.css"
-        rel="stylesheet">
+
+    <style>
+        /* Remove underlines from links and list items */
+        a,
+        .list li {
+            text-decoration: none !important;
+        }
+
+        /* Ensure modal content doesn't inherit unwanted underlines */
+        .modal-content,
+        .modal-content * {
+            text-decoration: none !important;
+        }
+    </style>
+
     @yield('APP-CSS')
 </head>
 
@@ -48,7 +61,7 @@
                 </div>
             </div>
             <div id="sidebar-scrollbar">
-                @if (auth()->user()->role === 'Admin' || auth()->user()->role === 'Super Admin')
+                @if (auth()->user()->role === 'Admin')
                     @include('admin.sidebar')
                 @elseif(auth()->user()->role === 'Employee')
                     @include('employee.sidebar')
@@ -94,6 +107,11 @@
             </div>
         </div>
     </footer>
+
+    {{-- @include('rental.terms') --}}
+    {{-- @include('student.terms') --}}
+    {{-- @include('survey.terms') --}}
+
     <!-- Footer END -->
 
     <!-- Optional JavaScript -->

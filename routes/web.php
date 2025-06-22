@@ -12,7 +12,10 @@ use App\Http\Controllers\EquipmentRentalItemController;
 use App\Http\Controllers\Navigation\AdminController;
 use App\Http\Controllers\Navigation\EmployeeController;
 use App\Http\Controllers\RentalController;
+use App\Http\Controllers\Report\DivingReportController;
 use App\Http\Controllers\Report\Equipment\ReportController;
+use App\Http\Controllers\Report\EquipmentReportController;
+use App\Http\Controllers\Report\RentalReportController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VesselController;
 use App\Http\Controllers\VesselInspectionController;
@@ -145,27 +148,15 @@ Route::prefix('employee')->group(function () {
         Route::post('{rental}/action', [RentalActionController::class, 'handle'])->name('employee.rentals.action');
     });
 
-    Route::prefix('equipmentReports')->group(function () {
-        Route::get('', [ReportController::class, 'index'])->name('reports.equipmentReportIndex');
-        Route::get('/show', [ReportController::class, 'show'])->name('reports.equipmentReportShow');
-        Route::get('/render', [ReportController::class, 'render'])->name('reports.equipmentReportRender');
-        Route::post('/export', [ReportController::class, 'export'])->name('reports.equipmentReportExport');
-        Route::post('/print', [ReportController::class, 'export'])->name('reports.equipmentReportPrint');
-    });
+    Route::prefix('reports')->group(function () {
+        Route::get('diving', [DivingReportController::class, 'index'])->name('reports.diving');
+        Route::get('diving/pdf', [DivingReportController::class, 'exportPdf'])->name('reports.diving.pdf');
 
-    Route::prefix('divingReports')->group(function () {
-        Route::get('', [ReportController::class, 'index'])->name('reports.divingReportIndex');
-        Route::get('/show', [ReportController::class, 'show'])->name('reports.divingReportShow');
-        Route::get('/render', [ReportController::class, 'render'])->name('reports.divingReportRender');
-        Route::post('/export', [ReportController::class, 'export'])->name('reports.divingReportExport');
-    });
+        Route::get('equipment', [EquipmentReportController::class, 'index'])->name('reports.equipment');
+        Route::get('equipment/pdf', [EquipmentReportController::class, 'exportPdf'])->name('reports.equipment.pdf');
 
-    Route::prefix('vesselReport')->group(function () {
-        Route::get('', [ReportController::class, 'index'])->name('reports.vesselReportIndex');
-        Route::get('/show', [ReportController::class, 'show'])->name('reports.vesselReportShow');
-        Route::get('/render', [ReportController::class, 'render'])->name('reports.vesselReportRender');
-        Route::post('/export', [ReportController::class, 'export'])->name('reports.vesselReportExport');
-        Route::post('/print', [ReportController::class, 'print'])->name('reports.vesselReportPrint');
+        Route::get('rental', [RentalReportController::class, 'index'])->name('reports.rental');
+        Route::get('rental/pdf', [RentalReportController::class, 'exportPdf'])->name('reports.rental.pdf');
     });
 });
 
@@ -183,7 +174,7 @@ Route::prefix('student')->group(function () {
 
     Route::prefix('divingApplications')->group(function () {
         Route::get('/', [NavigationStudentController::class, 'divingApplications'])->name('student.divingApplications');
-        Route::post('/{applicationID}/{action}', [ActionDivingApplicationController::class, 'handleAction'])->name('employee.handleActionApplication');
+        Route::post('/{applicationID}/{action}', [ActionDivingApplicationController::class, 'handleAction'])->name('student.handleActionApplication');
         Route::get('/employeeDiversLogs', [NavigationStudentController::class, 'employeeDiversLogs'])->name('student.employeeDiversLogs');
         Route::get('/{application}/divers-log', [DivingApplicationController::class, 'viewDiversLog']);
     });
@@ -204,8 +195,8 @@ Route::prefix('rental_client')->group(function () {
         Route::get('', [RentalClientController::class, 'rentals'])->name('rental_client.rentals');
         Route::get('{rental}/items', [RentalActionController::class, 'rentalItems']);
         Route::post('{rental}/return', [RentalActionController::class, 'submitReturn']);
-        Route::post('/confirm', [RentalActionController::class, 'confirmRental'])->name('rentals.confirm');
-        Route::post('{rental}/action', [RentalActionController::class, 'handle'])->name('employee.rentals.action');
+        Route::post('/confirm', [RentalActionController::class, 'confirmRental'])->name('rental_client.confirm');
+        Route::post('{rental}/action', [RentalActionController::class, 'handle'])->name('employee.rentals_client.action');
     });
 });
 

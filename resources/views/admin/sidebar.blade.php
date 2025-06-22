@@ -6,7 +6,7 @@
                 </i><span>Dashboard</span>
             </a>
         </li>
-        <li class="@yield('user-active')">
+        <li>
             <a href="#menu-level" class="iq-waves-effect collapsed" data-toggle="collapse" aria-expanded="false"><i
                     class="ri-record-circle-line iq-arrow-left">
                 </i><span>User Account</span>
@@ -18,7 +18,13 @@
                 <li class="@yield('survey-active')"><a href="{{ route('admin.surveys') }}"><i class="ri-record-circle-line"></i>Survey Clients</a></li>
                 <li class="@yield('rental-active')"><a href="{{ route('admin.rentals') }}"><i class="ri-record-circle-line"></i>Rental Clients</a></li>
             </ul>
+
+              <li>
+            <a href="#" class="iq-waves-effect collapsed">
+                <i class="ri-record-circle-line iq-arrow-left"></i>
+                <span>Messages</span>
+            </a>
+        </li>
         </li>
     </ul>
 </nav>
-<div class="p-3"></div>

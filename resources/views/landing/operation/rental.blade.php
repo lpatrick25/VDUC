@@ -48,10 +48,7 @@
                                 Upon verification, gear will be released on the scheduled date.
                                 A checklist will be provided during pickup and reviewed upon return to ensure all
                                 items are accounted for and in proper condition.</p>
-                        </div>
-
-                        <a href="/operation_survey" class="btn green" style="margin-top: 50px">get started</a>
-
+                            </div>
                     </div>
                 </div>
     </section>

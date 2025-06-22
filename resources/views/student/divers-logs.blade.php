@@ -6,10 +6,6 @@
             <div class="iq-header-title">
                 <h4 class="card-title">Diving Application List</h4>
             </div>
-            <div class="iq-card-header-toolbar d-flex align-items-center">
-                <button type="button" id="addBtn" class="btn btn-primary" data-toggle="modal" data-target="#addModal"
-                    class="btn btn-primary">Add New</button>
-            </div>
         </div>
         <div class="iq-card-body">
             <div class="table-responsive">

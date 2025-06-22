@@ -9,7 +9,7 @@
             </div>
             <div class="iq-card-header-toolbar d-flex align-items-center">
                 <button type="button" id="addBtn" class="btn btn-primary" data-toggle="modal" data-target="#addRentalModal"
-                    class="btn btn-primary">Add New</button>
+                    class="btn btn-primary">Rent</button>
             </div>
         </div>
         <div class="iq-card-body">

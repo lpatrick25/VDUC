@@ -45,7 +45,7 @@
                                     required>
                             </div>
                             <div class="form-group">
-                                <label for="length">Length</label>
+                                <label for="length">Length (meters)</label>
                                 <input type="text" class="form-control" name="length" id="length" required>
                             </div>
                             <div class="form-group">
@@ -55,7 +55,7 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="breadth">Breadth</label>
+                                <label for="breadth">Breadth (meters)</label>
                                 <input type="text" class="form-control" name="breadth" id="breadth" required>
                             </div>
                             <div class="form-group">
@@ -63,11 +63,11 @@
                                 <input type="text" class="form-control" name="material" id="material" required>
                             </div>
                             <div class="form-group">
-                                <label for="depth">Depth</label>
+                                <label for="depth">Depth (meters)</label>
                                 <input type="text" class="form-control" name="depth" id="depth" required>
                             </div>
                             <div class="form-group">
-                                <label for="gross_tonnage">Gross Tonnage</label>
+                                <label for="gross_tonnage">Gross Tonnage (metric tons)</label>
                                 <input type="text" class="form-control" name="gross_tonnage" id="gross_tonnage"
                                     required>
                             </div>
@@ -76,7 +76,7 @@
                                 <input type="text" class="form-control" name="engine" id="engine" required>
                             </div>
                             <div class="form-group">
-                                <label for="net_tonnage">Net Tonnage</label>
+                                <label for="net_tonnage">Net Tonnage (metric tons)</label>
                                 <input type="text" class="form-control" name="net_tonnage" id="net_tonnage"
                                     required>
                             </div>

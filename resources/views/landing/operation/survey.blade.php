@@ -147,7 +147,7 @@
             <div style="text-align: right;">
                 <a href="/sign-in" class="btn"
                    style="margin-top:30px; width:200px; background-color:#64c9d8; color:#ffffff; border-radius:5px;">
-                    <span>Rent Now</span>
+                    <span>Get Started</span>
                 </a>
             </div>
 
@@ -174,3 +174,4 @@
         </div>
     </div>
 @endsection
+

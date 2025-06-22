@@ -65,6 +65,8 @@
             </div>
         </div>
     </div>
+
+
     {{-- Add Rental Modal --}}
     <div class="modal fade" id="addRentalModal" tabindex="-1" role="dialog" aria-labelledby="addRentalModalLabel"
         aria-hidden="true">
@@ -125,6 +127,7 @@
         </div>
     </div>
 @endsection
+
 @section('APP-SCRIPT')
     <script>
         $(document).ready(function() {
