@@ -35,6 +35,7 @@
     </style>
 
     @yield('APP-CSS')
+
 </head>
 
 <body class="sidebar-main-active right-column-fixed">
@@ -108,9 +109,9 @@
         </div>
     </footer>
 
-    {{-- @include('rental.terms') --}}
-    {{-- @include('student.terms') --}}
-    {{-- @include('survey.terms') --}}
+    @include('rental.terms')
+    @include('student.terms')
+    @include('survey.terms')
 
     <!-- Footer END -->
 

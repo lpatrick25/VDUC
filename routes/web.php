@@ -1,5 +1,6 @@
 <?php
 
+
 use App\Http\Controllers\Action\DivingApplicationController as ActionDivingApplicationController;
 use App\Http\Controllers\Action\RentalActionController;
 use App\Http\Controllers\Action\StudentController;
@@ -24,6 +25,7 @@ use App\Http\Controllers\VesselScheduleController;
 use App\Http\Controllers\VesselServiceController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+
 
 use App\Http\Controllers\LandingController;
 use App\Http\Controllers\Navigation\RentalClientController;
@@ -100,7 +102,70 @@ Route::prefix('admin')->group(function () {
     Route::get('/students', [AdminController::class, 'students'])->name('admin.students');
     Route::get('/surveys', [AdminController::class, 'surveys'])->name('admin.surveys');
     Route::get('/rentals', [AdminController::class, 'rentals'])->name('admin.rentals');
+
+    // Route::get('/equipments_item', [AdminController::class, 'items'])->name('admin.items');
+    // Route::get('/equipments_rentals', [AdminController::class, 'rentals'])->name('admin.rentals');
+
+
+    Route::get('/messages', [AdminController::class, 'messages'])->name('admin.messages');
+    Route::post('/messages/send', [AdminController::class, 'sendSms'])->name('admin.send.sms');
+;
+
+    Route::prefix('equipments')->group(function () {
+        Route::get('/list', [AdminController::class, 'equipments'])->name('admin.items');
+        Route::get('/rentals', [AdminController::class, 'rentals'])->name('admin.rent');
+    });
+
+    Route::prefix('diving')->group(function () {
+        Route::get('/lesson', [AdminController::class, 'lesson'])->name('admin.lesson');
+
+        Route::prefix('students')->group(function () {
+            Route::get('/list', [AdminController::class, 'students'])->name('admin.students_list');
+            Route::get('/{student}/applications', [StudentController::class, 'getApplications']);
+        });
+
+        Route::prefix('applications')->group(function () {
+            Route::get('/list', [AdminController::class, 'applications'])->name('admin.applications');
+            Route::post('/{applicationID}/{action}', [ActionDivingApplicationController::class, 'handleAction'])->name('admin.handleActionApplication');
+            Route::get('/{application}/divers-logs', [StudentController::class, 'getDiversLogs']);
+            Route::get('/{application}/divers-log', [DivingApplicationController::class, 'viewDiversLog']);
+        });
+    });
+
+    Route::prefix('vessels')->group(function () {
+        Route::get('/list', [AdminController::class, 'vessels'])->name('admin.vessels');
+        Route::get('/services', [AdminController::class, 'services'])->name('admin.services');
+        Route::prefix('schedules')->group(function () {
+            Route::get('/list', [AdminController::class, 'schedules'])->name('admin.schedules');
+            Route::get('/{scheduleID}/{action}', [ActionVesselScheduleController::class, 'handleAction'])->name('admin.handleActionSchedule');
+        });
+        Route::prefix('inspection')->group(function () {
+            Route::get('/list', [AdminController::class, 'inspection'])->name('admin.inspection');
+            Route::get('/{scheduleID}', [AdminController::class, 'vesselSchedule'])->name('admin.vesselSchedule');
+            Route::get('/{scheduleID}/reports', [AdminController::class, 'vesselInspectionReport'])->name('admin.vesselInspectionReport');
+            Route::get('/{scheduleID}/sendVesselInspectionReport', [AdminController::class, 'sendVesselInspectionReport'])->name('admin.sendVesselInspectionReport');
+        });
+    });
+
+    Route::prefix('rentals')->group(function () {
+        Route::get('{rental}/items', [RentalActionController::class, 'rentalItems']);
+        Route::post('{rental}/return', [RentalActionController::class, 'submitReturn']);
+        Route::post('/confirm', [RentalActionController::class, 'confirmRental'])->name('admin.rentals.confirm');
+        Route::post('{rental}/action', [RentalActionController::class, 'handle'])->name('admin.rentals.action');
+    });
+
+    Route::prefix('reports')->group(function () {
+        Route::get('diving', [DivingReportController::class, 'index'])->name('admin.reports.diving');
+        Route::get('diving/pdf', [DivingReportController::class, 'exportPdf'])->name('admin.reports.diving.pdf');
+
+        Route::get('equipment', [EquipmentReportController::class, 'index'])->name('admin.reports.equipment');
+        Route::get('equipment/pdf', [EquipmentReportController::class, 'exportPdf'])->name('admin.reports.equipment.pdf');
+
+        Route::get('rental', [RentalReportController::class, 'index'])->name('admin.reports.rental');
+        Route::get('rental/pdf', [RentalReportController::class, 'exportPdf'])->name('admin.reports.rental.pdf');
+    });
 });
+
 
 Route::prefix('employee')->group(function () {
     Route::get('/dashboard', [EmployeeController::class, 'dashboard'])->name('employee.dashboard');
@@ -137,6 +202,7 @@ Route::prefix('employee')->group(function () {
             Route::get('/list', [EmployeeController::class, 'inspection'])->name('employee.inspection');
             Route::get('/{scheduleID}', [EmployeeController::class, 'vesselSchedule'])->name('employee.vesselSchedule');
             Route::get('/{scheduleID}/reports', [EmployeeController::class, 'vesselInspectionReport'])->name('employee.vesselInspectionReport');
+            Route::get('/{scheduleID}/sendVesselInspectionReport', [EmployeeController::class, 'sendVesselInspectionReport'])->name('employee.sendVesselInspectionReport');
             // Route::get('/{scheduleID}/{action}', [ActionVesselScheduleController::class, 'handleAction'])->name('employee.handleActionSchedule');
         });
     });

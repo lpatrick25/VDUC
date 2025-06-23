@@ -34,7 +34,7 @@
                                 <td>{{ $divingApplication->user->first_name }} {{ $divingApplication->user->last_name }}
                                 </td>
                                 <td>{{ $divingApplication->lesson->lesson_name }}</td>
-                                <td>{{ $divingApplication->lesson->prerequisite ? $divingApplication->lesson->prerequisite->lesson_name : 'N/A' }}
+                                <td>{{ $divingApplication->lesson->prerequisite ? $divingApplication->lesson->prerequisiteLesson->lesson_name  : 'N/A' }}
                                 </td>
                                 <td>{{ $divingApplication->schedule_date ? date('F j, Y', strtotime($divingApplication->schedule_date)) : 'N/A' }}
                                 </td>

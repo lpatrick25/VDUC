@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\DivingApplication;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use App\Mail\ApplicationCompletedMail;
+use Illuminate\Support\Facades\Mail;
 
 class DivingApplicationController extends Controller
 {
@@ -61,6 +63,10 @@ class DivingApplicationController extends Controller
                     }
 
                     $application->status = 'Completed';
+
+                    // Send email notification
+                    Mail::to($application->user->email)->send(new ApplicationCompletedMail($application));
+
                     break;
 
                 default:
@@ -127,7 +133,7 @@ class DivingApplicationController extends Controller
     public function setCompleted($id)
     {
         try {
-            $application = DivingApplication::findOrFail($id);
+            $application = DivingApplication::with(['user', 'lesson'])->findOrFail($id);
 
             if ($application->status !== 'Ongoing') {
                 return $this->failed(null, 'Only ongoing applications can be marked as Completed', 400);
@@ -136,9 +142,12 @@ class DivingApplicationController extends Controller
             $application->status = 'Completed';
             $application->save();
 
-            return $this->success($application, 'Application marked as Completed.');
+            // Send email notification
+            Mail::to($application->user->email)->send(new ApplicationCompletedMail($application));
+
+            return $this->success($application, 'Application marked as Completed and email sent.');
         } catch (\Exception $e) {
-            Log::error("Failed to set application ID {$id} as Completed: " . $e->getMessage());
+            \Log::error("Failed to set application ID {$id} as Completed: " . $e->getMessage());
             return $this->failed(null, 'Failed to mark application as Completed', 500);
         }
     }

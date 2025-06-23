@@ -136,7 +136,7 @@
             <table>
                 <tr>
                     <td style="width: 20%; text-align: center">
-                        <img src="{{ asset('/dist/img/VDUC.png') }}" alt="VDUC Logo"
+                        <img src="{{ asset('images/logo1.png') }}" alt="VDUC Logo"
                             style="height: 120px; width: 120px" />
                     </td>
                     <td style="width: 60%; text-align: left">
@@ -147,7 +147,7 @@
                         <p>Marina Accreditation Certificate No.: US-MR08-2022-07001</p>
                     </td>
                     <td style="width: 20%; text-align: center">
-                        <img src="{{ asset('/dist/img/VDUC.png') }}" alt="VDUC Logo"
+                        <img src="{{ asset('images/logo1.png') }}" alt="VDUC Logo"
                             style="height: 120px; width: 120px" />
                     </td>
                 </tr>

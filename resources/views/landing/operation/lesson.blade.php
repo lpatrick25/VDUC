@@ -62,29 +62,28 @@
                 </div>
             </div>
 
-  <!-- RIGHT COLUMN: IMAGE GALLERY & DESCRIPTION -->
-            <div class="col-md-6" style="text-align: left;">
-                <div class="small-title montserrat-text uppercase"
+                <!-- RIGHT COLUMN: IMAGE GALLERY & DESCRIPTION -->
+              <div class="col-md-5" style="text-align: left;">
+                        <div class="small-title montserrat-text uppercase"
                     style="margin-top: 0px; background-color:#64c9d8; color:#ffffff; border-radius:5px; text-align: center; font-weight: 700; padding: 12px 20px; font-size: 18px;">
                     one of our journey
                 </div>
 
                 <!-- FLEX GRID FOR IMAGES -->
-                <div class="d-flex flex-wrap justify-content-between mt-3">
-                    <div class="image-wrapper" style="width: 48%;">
-                        <img src="images/diving-1.jpg" alt="Diving Image 1">
+                <div class="d-flex flex-wrap justify-content-between mt-3" style="padding-left: 200px">
+                    <div class="image-wrapper" style="width: 65%; text-align: center;">
+                        <img src="images/diving-1.jpg" alt="Diving Image 1" style="max-width: 100%; display: block; margin: 0 auto;">
                     </div>
-                    <div class="image-wrapper" style="width: 48%;">
-                        <img src="images/diving-2.jpg" alt="Diving Image 2">
+                    <div class="image-wrapper" style="width: 65%; text-align: center;">
+                        <img src="images/diving-2.jpg" alt="Diving Image 2" style="max-width: 100%; display: block; margin: 0 auto;">
                     </div>
-                    <div class="image-wrapper" style="width: 48%;">
-                        <img src="images/diving-3.jpg" alt="Diving Image 3">
+                    <div class="image-wrapper" style="width: 65%; text-align: center;">
+                        <img src="images/diving-3.jpg" alt="Diving Image 3" style="max-width: 100%; display: block; margin: 0 auto;">
                     </div>
-                    <div class="image-wrapper" style="width: 48%;">
-                        <img src="images/diving-4.jpg" alt="Diving Image 4">
+                    <div class="image-wrapper" style="width: 65%; text-align: center;">
+                        <img src="images/diving-4.jpg" alt="Diving Image 4" style="max-width: 100%; display: block; margin: 0 auto;">
                     </div>
                 </div>
-
                 <div class="mt-4">
                     <p style="text-indent: 30px;">
                         Our diving lessons are designed to cater to all skill levels, from beginners to advanced divers.

@@ -30,6 +30,10 @@
                             </select>
                         </div>
                         <div class="col-md-12">
+                            <label for="duration_minutes" class="form-label fw-bold">Duration (minutes)</label>
+                             <input type="number" step="0.01" class="form-control" name="duration_minutes" required>
+                        </div>
+                        <div class="col-md-12">
                             <label for="price" class="form-label fw-bold">Rate</label>
                             <input type="number" step="0.01" class="form-control" id="price" name="price" required>
                         </div>

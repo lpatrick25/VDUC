@@ -35,9 +35,9 @@
             </a>
         </li>
 
-        <li>
-            <a href="" class="iq-waves-effect collapsed">
-                <i class="ri-record-circle-line iq-arrow-left"></i>
+       <li class="@yield('terms-of-service-active')">
+            <a href="" data-toggle="modal" data-target="#termOfServiceSurvey" class="iq-waves-effect collapsed" data-toggle="collapse" aria-expanded="false">
+                <i class="ri-article-line iq-arrow-left"></i>
                 <span>Terms of Services</span>
             </a>
         </li>

@@ -30,7 +30,7 @@
                     <div class="iq-card-header-toolbar d-flex align-items-center">
                         <button type="button" id="addBtn" class="btn btn-primary" data-toggle="modal"
                             data-target="#addModal" class="btn btn-primary">Add New Inspection Details</button>
-                        <a href="/employee/vessels/inspection/{{ $vesselSchedule->id }}/reports" id="printBtn"
+                        <a href="/employee/vessels/inspection/{{ $vesselSchedule->id }}/sendVesselInspectionReport" id="printBtn"
                             F class="btn btn-success" class="btn btn-primary">Print Inspection Reports</a>
                     </div>
                 </div>
